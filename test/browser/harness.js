@@ -14,6 +14,7 @@ const CHARACTERS = {
   '9a101281-ca8d-4fba-85d8-0c74ab7bf008': 'character-hidden.json',
   'd4e5f6a7-b8c9-4d0e-9f1a-2b3c4d5e6f70': 'character-nsfw.json',
   '0b1c2d3e-4f50-4617-8a9b-c0d1e2f3a4b5': 'character-lorebook.json',
+  '5c6d7e8f-9a0b-4c1d-8e2f-3a4b5c6d7e8f': 'character-loggedout.json',
 };
 const MISSING_CHARACTER = 'eeeeeeee-0000-4000-8000-00000000dead';
 
@@ -42,7 +43,7 @@ function htmlFor(urlPath) {
   if (route.type === 'chat') return page('Chat | Janitor AI', '<div class="chat">chat</div>');
   if (route.type === 'list' && route.kind === 'favorites') {
     // One grid container whose class contains "card" and holds every link.
-    const links = Object.keys(CHARACTERS).map((id) => `<a class="tile" href="/characters/${id}_x"><span>${id.slice(0, 8)}</span></a>`).join('');
+    const links = Object.keys(CHARACTERS).slice(0, 4).map((id) => `<a class="tile" href="/characters/${id}_x"><span>${id.slice(0, 8)}</span></a>`).join('');
     return page('Favorites | Janitor AI', `<div class="card-grid">${links}</div>`);
   }
   if (route.type === 'list') {
@@ -75,7 +76,11 @@ async function setup(opts) {
   const o = Object.assign({ loggedIn: true, failChats: [48151624], apiDelayMs: 25 }, opts);
   // Chromium names non-ASCII downloads "download" unless the locale is UTF-8
   // (real desktops are; bare CI containers often are not).
-  const browser = await chromium.launch({ env: Object.assign({}, process.env, { LANG: 'C.UTF-8', LC_ALL: 'C.UTF-8' }) });
+  const browser = await chromium.launch({
+    // CHROME_BIN=/path/to/chrome runs the tests with a system Chrome/Chromium.
+    executablePath: process.env.CHROME_BIN || undefined,
+    env: Object.assign({}, process.env, { LANG: 'C.UTF-8', LC_ALL: 'C.UTF-8' }),
+  });
   const context = await browser.newContext({
     acceptDownloads: true,
     viewport: o.viewport || { width: 1280, height: 900 },

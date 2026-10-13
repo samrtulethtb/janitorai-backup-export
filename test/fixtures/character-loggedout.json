@@ -1,0 +1,29 @@
+{
+  "id": "5c6d7e8f-9a0b-4c1d-8e2f-3a4b5c6d7e8f",
+  "name": "🍓 Strawberry Witch ✨",
+  "avatar": "strawberry-witch.webp",
+  "description": "<p>A clumsy witch who runs a <em>fruit</em> potion shop. 🍓</p>",
+  "tags": [
+    { "created_at": "2024-03-01T12:00:00.000Z", "description": "Female characters", "id": 4, "name": "Female", "slug": "female" },
+    { "created_at": "2024-03-01T12:00:00.000Z", "description": "Magic, witches and wizards", "id": 27, "name": "🔮 Magic", "slug": "magic" },
+    { "created_at": "2024-05-20T08:30:00.000Z", "description": null, "id": 112, "name": "Wholesome", "slug": "wholesome" }
+  ],
+  "custom_tags": ["witch", "🍓"],
+  "creator_id": "6b8e1f2a-1111-4c3d-8e9f-0a1b2c3d4e5f",
+  "creator_name": "maple_writer",
+  "creator_verified": false,
+  "is_nsfw": false,
+  "is_public": true,
+  "showdefinition": true,
+  "allow_proxy": true,
+  "personality": null,
+  "scenario": null,
+  "example_dialogs": null,
+  "first_message": null,
+  "first_messages": null,
+  "token_counts": { "personality_tokens": 0, "scenario_tokens": 0, "example_dialogs_tokens": 0, "first_message_tokens": 0, "total_tokens": 0 },
+  "stats": { "chat": 8120, "message": 190331 },
+  "created_at": "2026-04-11T09:00:00.000Z",
+  "updated_at": "2026-09-02T17:45:00.000Z",
+  "scripts": []
+}

@@ -71,7 +71,12 @@
   };
 
   const MAX_CONCURRENCY = 2;
-  const THROTTLE_PRESETS = { slow: 1200, normal: 600, fast: 300 };
+  // Conservative on purpose: this is not a crawler (robots.txt disallows
+  // /hampter/ for crawlers). It only acts when the user clicks, on their own
+  // account or the pages they open, and spaces every request start by at
+  // least MIN_REQUEST_DELAY_MS whatever the setting says.
+  const MIN_REQUEST_DELAY_MS = 1000;
+  const THROTTLE_PRESETS = { slow: 3000, normal: 1500, fast: 1000 };
   const RETRYABLE_STATUS = [429, 500, 502, 503, 504];
 
   // Definition fields: never exported for someone else's hidden character.
@@ -103,7 +108,7 @@
     throttle: 'normal',
     sponsorOff: false,
     language: 'auto',
-    retryBaseMs: 1000,
+    retryBaseMs: 2000,
   };
 
   // ===========================================================================
@@ -863,7 +868,9 @@
     if (visible) {
       const char = Object.assign({}, raw);
       let reason = null;
-      if (!hasAnyDefinition(char)) reason = isOwner ? 'owner_missing' : 'empty';
+      // JanitorAI sends the definition only to logged-in users: logged out, the
+      // fields come back null (and token_counts 0) even with showdefinition true.
+      if (!hasAnyDefinition(char)) reason = isOwner ? 'owner_missing' : viewer && viewer.loggedIn ? 'empty' : 'login_required';
       return { char, definitionHidden: false, isOwner, reason };
     }
     const char = {};
@@ -875,8 +882,18 @@
   const HIDDEN_NOTICE = "The creator hid this character's definition, so only the public parts can be saved.";
   const UNAVAILABLE_NOTICE = 'JanitorAI no longer serves this character (deleted or private), so only its name and picture could be saved.';
 
+  const LOGIN_REQUIRED_NOTICE = "Log in to janitorai.com to save this character's definition — JanitorAI only sends it to logged-in users.";
+
   function noticeFor(guarded) {
-    return guarded && guarded.reason === 'unavailable' ? UNAVAILABLE_NOTICE : HIDDEN_NOTICE;
+    if (guarded && guarded.reason === 'unavailable') return UNAVAILABLE_NOTICE;
+    if (guarded && guarded.reason === 'login_required') return LOGIN_REQUIRED_NOTICE;
+    return HIDDEN_NOTICE;
+  }
+
+  // A skipped.json entry for a character saved without its definition, or null.
+  function definitionSkipEntry(id, name, guarded) {
+    if (!guarded || !(guarded.definitionHidden || guarded.reason === 'login_required')) return null;
+    return { id, name, what: 'definition', why: noticeFor(guarded) };
   }
 
   // ===========================================================================
@@ -1610,8 +1627,16 @@ ${rows}
       this.url = i.url || '';
       this.retryAfter = i.retryAfter;
       this.network = !!i.network;
-      this.fatal = this.status === 401 || this.status === 403;
+      // 401/403: login lost or the site's firewall said no. 429 here means the
+      // retries with backoff were already used up. All three pause a bulk run
+      // instead of moving on to the next item.
+      this.fatal = this.status === 401 || this.status === 403 || this.status === 429;
     }
+  }
+
+  function throttleDelayMs(preset) {
+    const ms = Object.prototype.hasOwnProperty.call(THROTTLE_PRESETS, preset) ? THROTTLE_PRESETS[preset] : THROTTLE_PRESETS.normal;
+    return Math.max(MIN_REQUEST_DELAY_MS, ms);
   }
 
   function isRetryable(err) {
@@ -1773,6 +1798,7 @@ ${rows}
       saved: 'Saved: {file}',
       hidden_notice: "The creator hid this character's definition, so only the public parts can be saved.",
       owner_missing: "You made this character, but JanitorAI didn't return its definition. Only the public parts can be saved.",
+      login_for_definition: "Log in to janitorai.com to save this character's definition — JanitorAI only sends it to logged-in users.",
       chat_tip: 'Tip: import the character card into SillyTavern first, then import this chat from that character’s chat list.',
       chat_with_card: 'Card + chat as one ZIP',
       export_all_chats: 'Export all my chats',
@@ -1870,6 +1896,7 @@ ${rows}
       saved: 'Salvo: {file}',
       hidden_notice: 'O criador ocultou a definição deste personagem, então só as partes públicas podem ser salvas.',
       owner_missing: 'Você criou este personagem, mas o JanitorAI não enviou a definição. Só as partes públicas podem ser salvas.',
+      login_for_definition: 'Entre no janitorai.com para salvar a definição deste personagem — o JanitorAI só a envia para usuários logados.',
       chat_tip: 'Dica: importe primeiro o cartão do personagem no SillyTavern e depois importe este chat na lista de chats desse personagem.',
       chat_with_card: 'Cartão + chat em um ZIP',
       export_all_chats: 'Exportar todos os meus chats',
@@ -1962,6 +1989,7 @@ ${rows}
       saved: 'Guardado: {file}',
       hidden_notice: 'El creador ocultó la definición de este personaje, así que solo se pueden guardar las partes públicas.',
       owner_missing: 'Tú creaste este personaje, pero JanitorAI no devolvió su definición. Solo se pueden guardar las partes públicas.',
+      login_for_definition: 'Inicia sesión en janitorai.com para guardar la definición de este personaje: JanitorAI solo la envía a usuarios con sesión iniciada.',
       chat_tip: 'Consejo: importa primero la tarjeta del personaje en SillyTavern y luego importa este chat desde la lista de chats de ese personaje.',
       chat_with_card: 'Tarjeta + chat en un ZIP',
       export_all_chats: 'Exportar todos mis chats',
@@ -2054,6 +2082,7 @@ ${rows}
       saved: 'Tersimpan: {file}',
       hidden_notice: 'Kreator menyembunyikan definisi karakter ini, jadi hanya bagian publik yang bisa disimpan.',
       owner_missing: 'Kamu membuat karakter ini, tetapi JanitorAI tidak mengirim definisinya. Hanya bagian publik yang bisa disimpan.',
+      login_for_definition: 'Masuk ke janitorai.com untuk menyimpan definisi karakter ini — JanitorAI hanya mengirimnya ke pengguna yang sudah login.',
       chat_tip: 'Tips: impor kartu karakter ke SillyTavern dulu, lalu impor chat ini dari daftar chat karakter tersebut.',
       chat_with_card: 'Kartu + chat dalam satu ZIP',
       export_all_chats: 'Ekspor semua chat saya',
@@ -2194,8 +2223,8 @@ ${rows}
   }
 
   const Core = {
-    VERSION, SPONSOR_ENABLED, SPONSOR, DEFINITION_FIELDS, PUBLIC_FIELDS, CARD_PARTS, DEFAULT_SETTINGS, HIDDEN_NOTICE, UNAVAILABLE_NOTICE,
-    MAX_CONCURRENCY, THROTTLE_PRESETS, STRINGS, ALLOWED_HOSTS,
+    VERSION, SPONSOR_ENABLED, SPONSOR, DEFINITION_FIELDS, PUBLIC_FIELDS, CARD_PARTS, DEFAULT_SETTINGS, HIDDEN_NOTICE, UNAVAILABLE_NOTICE, LOGIN_REQUIRED_NOTICE,
+    MAX_CONCURRENCY, THROTTLE_PRESETS, MIN_REQUEST_DELAY_MS, STRINGS, ALLOWED_HOSTS,
     utf8Encode, utf8Decode, bytesToBase64, base64ToBytes, base64EncodeUtf8, base64DecodeUtf8,
     htmlToText, escapeHtml, decodeEntities, sanitizeFilename, applyFilenameTemplate, uniqueName, humanizedDateTime, formatDate,
     crc32, adler32, isPng, readPngChunks, encodePng, writeCardPng, readCardPng, makePlaceholderPng,
@@ -2203,14 +2232,14 @@ ${rows}
     parseRoute, extractCharacterId, isAllowedUrl, avatarUrl,
     parseCookies, tokenFromCookies, tokenFromStorageEntries, extractBearer, decodeJwtPayload, viewerFromToken,
     decodeJsStringLiteral, extractStoreStateFromScript, findCharacterInState, findPersonasInState, characterFromDomSnapshot,
-    isOwnCharacter, guardCharacter, normalizeTags, collectGreetings, normalizeMacros,
+    isOwnCharacter, guardCharacter, noticeFor, definitionSkipEntry, normalizeTags, collectGreetings, normalizeMacros,
     mapCharacterToCardData, buildCardV2, buildCardV3, validateCard,
     parseJanitorLorebook, toCharacterBook, toWorldInfo,
     buildCharacterText, buildRawCharacterJson, buildCharacterFiles, characterBaseName,
     normalizeChat, buildSillyTavernJsonl, parseJsonl, validateSillyTavernJsonl,
     buildChatMarkdown, buildChatText, buildChatHtml, buildChatJson, buildChatFiles, chatBaseName,
     normalizePersona, dedupePersonas, buildSillyTavernPersonaBackup,
-    createLimiter, HttpError, isRetryable, computeBackoff, withRetry, runBulk, describeError, buildManifest,
+    createLimiter, HttpError, throttleDelayMs, isRetryable, computeBackoff, withRetry, runBulk, describeError, buildManifest,
     buildSponsorUrl, shouldShowSponsor, pickLocale, translate, buildIssueUrl,
   };
 
@@ -2260,7 +2289,7 @@ ${rows}
   let locale = pickLocale(settings.language, navigator.languages || [navigator.language]);
   const t = (key, vars) => translate(locale, key, vars);
 
-  const limiter = createLimiter({ concurrency: MAX_CONCURRENCY, delayMs: THROTTLE_PRESETS[settings.throttle] || THROTTLE_PRESETS.normal });
+  const limiter = createLimiter({ concurrency: MAX_CONCURRENCY, delayMs: throttleDelayMs(settings.throttle) });
 
   // --- Auth ------------------------------------------------------------------
 
@@ -2665,7 +2694,8 @@ ${rows}
           job.counts.lorebooks++;
         });
         job.skipped.push(...out.skipped.map((s) => Object.assign({ character: prep.guarded.char.name }, s)));
-        if (prep.guarded.definitionHidden) job.skipped.push({ id: item.id, name: prep.guarded.char.name, what: 'definition', why: noticeFor(prep.guarded) });
+        const defSkip = definitionSkipEntry(item.id, prep.guarded.char.name, prep.guarded);
+        if (defSkip) job.skipped.push(defSkip);
         job.counts.characters++;
         return;
       }
@@ -3004,6 +3034,7 @@ input{width:18px;height:18px;margin:0;accent-color:#7c5cff}
     nodes.push(el('div', { class: 'hint', text: `${g.char.name}${g.char.creator_name ? ` · ${g.char.creator_name}` : ''}${prep.loaded.layer !== 'api' ? ` · ${t('using_fallback', { layer: prep.loaded.layer })}` : ''}` }));
     if (g.definitionHidden) nodes.push(noticeEl('warn', [t('hidden_notice')]));
     else if (g.reason === 'owner_missing') nodes.push(noticeEl('warn', [t('owner_missing')]));
+    else if (g.reason === 'login_required') nodes.push(noticeEl('warn', [t('login_for_definition')]));
     const fail = failureNotice(prep.loaded.failures);
     if (fail && prep.loaded.layer !== 'api') nodes.push(fail);
 
@@ -3163,7 +3194,8 @@ input{width:18px;height:18px;margin:0;accent-color:#7c5cff}
         const out = await exportCharacterFiles(prep, { formats: settings.cardFormats, parts: null, macroMode: settings.macroMode, target: settings.target });
         out.files.forEach((f) => files.push({ name: uniqueName(used, f.name), data: f.data, mime: f.mime }));
         skipped.push(...out.skipped);
-        if (prep.guarded.definitionHidden) skipped.push({ id: item.id, name: item.name, what: 'definition', why: noticeFor(prep.guarded) });
+        const defSkip = definitionSkipEntry(item.id, item.name, prep.guarded);
+        if (defSkip) skipped.push(defSkip);
       }, {
         isCancelled: () => ui.cancelled,
         onProgress: (p) => progress(t('progress', { done: p.done, total: p.total, name: p.item ? p.item.name : '' }), p.done, p.total),
@@ -3277,7 +3309,7 @@ input{width:18px;height:18px;margin:0;accent-color:#7c5cff}
             sponsorOff: sponsorOff.input.checked,
           });
           store.set('settings', settings);
-          limiter.setDelay(THROTTLE_PRESETS[settings.throttle] || THROTTLE_PRESETS.normal);
+          limiter.setDelay(throttleDelayMs(settings.throttle));
           locale = pickLocale(settings.language, navigator.languages || [navigator.language]);
           renderPanel();
           setStatus(t('saved_settings'), 'ok');

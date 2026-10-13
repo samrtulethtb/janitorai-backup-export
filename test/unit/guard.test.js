@@ -162,3 +162,30 @@ test('unavailable (deleted) characters get their own note, not the "creator hid"
   assert.equal(/creator hid/.test(d.creator_notes), false);
   assert.match(core.buildCharacterText(d, g), /NOTE: JanitorAI no longer serves/);
 });
+
+test('logged out: showdefinition true but no definition → login_required with a plain notice', () => {
+  const raw = fixture('character-loggedout.json');
+  const loggedOut = core.viewerFromToken(null);
+  const g = core.guardCharacter(raw, loggedOut);
+  assert.equal(g.definitionHidden, false, 'not hidden by the creator');
+  assert.equal(g.reason, 'login_required');
+  assert.equal(core.noticeFor(g), "Log in to janitorai.com to save this character's definition — JanitorAI only sends it to logged-in users.");
+  assert.deepEqual(core.definitionSkipEntry(raw.id, raw.name, g), { id: raw.id, name: '🍓 Strawberry Witch ✨', what: 'definition', why: core.LOGIN_REQUIRED_NOTICE });
+  // Same data seen by a logged-in user is just an empty definition, not a login problem.
+  assert.equal(core.guardCharacter(raw, STRANGER).reason, 'empty');
+  assert.equal(core.definitionSkipEntry(raw.id, raw.name, core.guardCharacter(raw, STRANGER)), null);
+  // Public characters with a definition never get a skip entry.
+  assert.equal(core.definitionSkipEntry('x', 'x', core.guardCharacter(fixture('character-public.json'), loggedOut)), null);
+});
+
+test('logged out: real-shaped fixture still maps to valid cards (object tags, emoji names)', () => {
+  const g = core.guardCharacter(fixture('character-loggedout.json'), core.viewerFromToken(null));
+  const out = core.buildCharacterFiles({ guarded: g, formats: ['png', 'json_v2', 'json_v3'], baseName: 'x', now: 0 });
+  assert.deepEqual(out.errors, []);
+  const v2 = core.readCardPng(out.files[0].data).chara;
+  assert.equal(v2.data.name, '🍓 Strawberry Witch ✨');
+  assert.deepEqual(v2.data.tags, ['Female', '🔮 Magic', 'Wholesome', 'witch', '🍓']);
+  assert.equal(v2.data.creator_notes, 'A clumsy witch who runs a fruit potion shop. 🍓');
+  for (const k of ['description', 'scenario', 'first_mes', 'mes_example']) assert.equal(v2.data[k], '', k);
+  assert.deepEqual(v2.data.alternate_greetings, []);
+});

@@ -152,3 +152,32 @@ test('personas: SillyTavern backup format', () => {
   assert.deepEqual(backup.persona_descriptions[renFile], { description: 'Ren is 23, a quiet bookshop clerk.\nPronouns: he/him', position: 0, depth: 2, role: 0, lorebook: '', title: '' });
   assert.equal(files.length, 2);
 });
+
+test('throttle stays conservative: every preset waits at least 1 s between request starts', () => {
+  assert.equal(core.MIN_REQUEST_DELAY_MS, 1000);
+  assert.equal(core.MAX_CONCURRENCY, 2);
+  for (const name of Object.keys(core.THROTTLE_PRESETS)) assert.ok(core.throttleDelayMs(name) >= 1000, name);
+  assert.equal(core.throttleDelayMs('normal'), 1500);
+  assert.equal(core.throttleDelayMs('nonsense'), 1500, 'unknown values fall back to normal');
+  assert.equal(core.throttleDelayMs('__proto__'), 1500);
+  assert.ok(core.DEFAULT_SETTINGS.retryBaseMs >= 1000);
+});
+
+test('bulk pauses (not skips) on 403 firewall answers and on 429 after retries', async () => {
+  for (const status of [403, 429]) {
+    const items = [1, 2, 3].map((id) => ({ id, name: `c${id}` }));
+    let calls = 0;
+    const state = await core.runBulk(items, async (item) => {
+      calls++;
+      if (item.id === 2) throw new core.HttpError('blocked', { status, source: 'chat_api' });
+      return item.id;
+    });
+    assert.equal(state.status, 'paused', String(status));
+    assert.equal(state.nextIndex, 1);
+    assert.equal(calls, 2, 'nothing after the blocked request was tried');
+    assert.equal(state.skipped.length, 0);
+  }
+  // 404 and 500 still skip and move on.
+  assert.equal(new core.HttpError('x', { status: 404 }).fatal, false);
+  assert.equal(new core.HttpError('x', { status: 500 }).fatal, false);
+});
