@@ -1,0 +1,19 @@
+{
+  "name": "janitorai-backup-export",
+  "version": "1.0.0",
+  "private": true,
+  "description": "JanitorAI Backup & Export userscript: chats, character cards, personas and lorebooks to SillyTavern, SpicyChat and Saucepan.",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test \"test/unit/*.test.js\"",
+    "test:browser": "node --test --test-concurrency=1 \"test/browser/*.test.js\"",
+    "test:sillytavern": "node --test --test-concurrency=1 \"test/sillytavern/*.test.js\"",
+    "test:all": "npm test && npm run test:browser && npm run test:sillytavern"
+  },
+  "devDependencies": {
+    "playwright": "1.56.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
