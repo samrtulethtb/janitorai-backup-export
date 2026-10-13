@@ -380,3 +380,61 @@ test('backup: a deleted bot you still chat with is saved from the chat list, wit
     await env.browser.close();
   }
 });
+
+test('logged out: a character whose definition JanitorAI did not send says to log in; the public parts still export', async () => {
+  const LOGGED_OUT = '5c6d7e8f-9a0b-4c1d-8e2f-3a4b5c6d7e8f';
+  const notice = "Log in to janitorai.com to save this character's definition — JanitorAI only sends it to logged-in users.";
+  const env = await setup({ loggedIn: false });
+  try {
+    const { page } = env;
+    await env.open(`/characters/${LOGGED_OUT}_character-strawberry-witch`);
+    await page.locator('[data-jbe="fab"]').click();
+    const s = page.locator('[data-jbe="character-section"]');
+    await s.getByText(notice).waitFor();
+    assert.equal(await s.getByText("The creator hid this character's definition").count(), 0);
+    // The public parts can still be exported.
+    await s.locator('input[data-format="json_v2"]').check();
+    const file = await download(page, () => s.locator('[data-jbe="export-character"]').click());
+    assert.match(file.name, /^🍓 Strawberry Witch ✨ - maple_writer - .*\.zip$/);
+  } finally {
+    await env.browser.close();
+  }
+});
+
+test('logged out: bulk card export lists login_required characters in skipped.json', async () => {
+  const LOGGED_OUT = '5c6d7e8f-9a0b-4c1d-8e2f-3a4b5c6d7e8f';
+  const env = await setup({ loggedIn: false });
+  try {
+    const { page } = env;
+    await env.open(`/characters/${LOGGED_OUT}_x`);
+    // Run the same bulk card export the list pages use, for this one character plus a public one.
+    await page.evaluate(() => { history.pushState({}, '', '/my_characters'); });
+    await page.evaluate((ids) => {
+      const grid = document.createElement('div');
+      grid.innerHTML = ids.map((id) => `<div class="profile-character-card"><a href="/characters/${id}_x">${id}</a></div>`).join('');
+      document.getElementById('app').replaceChildren(grid);
+    }, [LOGGED_OUT, '3f1c2a9e-7b4d-4e2a-9c1b-5d6e7f8a9b0c']);
+    await page.waitForFunction(() => document.querySelectorAll('[data-jbe-mini]').length === 2);
+    await page.locator('[data-jbe="fab"]').click();
+    const file = await download(page, () => page.locator('[data-jbe="export-page"]').click());
+    const zip = core.readZip(file.bytes);
+    const skipped = JSON.parse(Buffer.from(zip.get('skipped.json')).toString());
+    assert.deepEqual(skipped, [{ id: LOGGED_OUT, name: '🍓 Strawberry Witch ✨', what: 'definition', why: core.LOGIN_REQUIRED_NOTICE }]);
+  } finally {
+    await env.browser.close();
+  }
+});
+
+test('no API requests until the user asks: loading pages and list cards sends nothing to /hampter/', async () => {
+  const env = await setup();
+  try {
+    const { page, stats } = env;
+    for (const p of [`/characters/${AIKO}_x`, '/chats/48151623', '/my_characters', '/']) {
+      await env.open(p);
+      await page.waitForTimeout(1200);
+    }
+    assert.deepEqual(stats.apiCalls, []);
+  } finally {
+    await env.browser.close();
+  }
+});

@@ -72,10 +72,12 @@ The SillyTavern screenshots come from the automated test in `test/sillytavern/ui
 These are hard rules, and the tests enforce them (`test/unit/guard.test.js`):
 
 - If `showdefinition` is not exactly `true` and you are not the creator, the card is rebuilt **from a whitelist of public fields only**: name, picture, tagline, tags, creator, stats. That holds even if the server or the page carried more. The export says: *"The creator hid this character's definition, so only the public parts can be saved."* Lorebooks of such characters are not requested at all.
+- **Logged out:** JanitorAI only sends definitions to logged-in users. Logged out, the definition fields come back `null` with `token_counts` at 0, even when `showdefinition` is true. The panel then says *"Log in to janitorai.com to save this character's definition — JanitorAI only sends it to logged-in users."*, and bulk exports list the character in `skipped.json` with the same reason.
 - There is no proxy, no generation-payload capture and no probing. The source contains no `generateAlpha`, no reverse-proxy settings and no POST requests.
 - The fetch hook only reads the `Authorization` header of the app's own janitorai.com requests, so the script can reuse your session. It never reads request or response bodies. Your login is found in this order: the Supabase cookie (`sb-auth-auth-token`, also split into `.0`, `.1`…), then localStorage, then that header.
 - Every URL in the source is on janitorai.com (and `ella.janitorai.com` for avatars), except the GitHub issue link (only when you click "Report this") and the sponsor link (disabled, see below). `@connect` lists only the janitorai domains, and there is no `@require`.
-- Bulk work runs at most **2 requests in flight**, with a delay between requests and exponential backoff that honours `Retry-After` on 429/5xx.
+- **Not a crawler.** JanitorAI's `robots.txt` disallows `/hampter/` for crawlers, and its firewall blocks headless browsers. The script runs only in your own browser and makes no API request until you click something (a test checks this). It works only on your own account and the pages you open.
+- Bulk work is throttled conservatively. At most **2 requests are in flight**, and request starts are spaced **at least 1 s** apart (presets: 1 s / 1.5 s default / 3 s; no setting goes lower). 429/5xx get exponential backoff that honours `Retry-After`. If the site still answers 429, or answers 403, the run **pauses** with Resume instead of moving on to the next item.
 - The UI is built with DOM APIs only (no `innerHTML`) inside a Shadow DOM host.
 
 ### Sponsor card
@@ -87,7 +89,7 @@ The code has one optional sponsor card (SPEC §7). It ships **disabled** (`SPONS
 - **Layered data sources.** For characters: the JSON API (`/hampter/characters/<id>`), then the page state (`window._storeState_`), then the DOM (public data only). For chats: the authenticated `/hampter/chats/*` endpoints. Each layer has its own unit-tested parser.
 - **Self-check.** When a layer fails, the panel names it (for example "JanitorAI changed its chat API (HTTP 404)") and links to a prefilled issue with no personal data. It never fails silently.
 - **Card self-check.** Every card is validated against the V2/V3 schema checks before it is written.
-- **Bulk runs:** retry with backoff, failures go to `skipped.json`, a lost login pauses the run with **Resume** and **Save what we have**, and you can cancel.
+- **Bulk runs:** retry with backoff, and failures go to `skipped.json`. A lost login, a firewall 403 or a persistent 429 pauses the run with **Resume** and **Save what we have**. You can cancel.
 - **SPA navigation** is followed by watching the URL; nothing in the page's history API is patched.
 
 ## Verification
@@ -96,11 +98,11 @@ The code has one optional sponsor card (SPEC §7). It ships **disabled** (`SPONS
 |---|---|---|
 | PNG round-trip (`chara` + `ccv3`, UTF-8 with emoji/CJK, CRCs, chunk placement) | `test/unit/png.test.js` | ✅ automated |
 | V2/V3 builders vs. schema-like checks | `test/unit/cards.test.js` | ✅ automated |
-| API → card mapping: public, hidden, NSFW, lorebook, alternate greetings | `test/unit/mapping.test.js` on **synthetic** fixtures | ✅ automated (fixtures need real captures, see below) |
+| API → card mapping: public, hidden, logged-out, NSFW, lorebook, alternate greetings | `test/unit/mapping.test.js`, `guard.test.js` on **synthetic** fixtures (the logged-out one is shaped from real data) | ✅ automated (fixtures need real captures, see below) |
 | JSONL builder (header, swipes, `extra`, one record per line) | `test/unit/chat.test.js` | ✅ automated |
 | Hidden-definition guard + "no proxy / payload capture" source scan | `test/unit/guard.test.js` | ✅ automated |
-| Throttle ≤ 2 in flight, backoff, resume, ZIP, tokens, sponsor rules, listing claims | `test/unit/infra.test.js`, `sponsor-listing.test.js` | ✅ automated |
-| Buttons on character, chat and list pages; download names and contents; bulk `skipped` report; phone layout; SPA; pt-BR | `test/browser/` (Playwright against mocked janitorai.com) | ✅ automated |
+| Throttle ≤ 2 in flight and ≥ 1 s between starts, backoff, pause on 403/429, resume, ZIP, tokens, sponsor rules, listing claims | `test/unit/infra.test.js`, `sponsor-listing.test.js` | ✅ automated |
+| Buttons on character, chat and list pages; download names and contents; bulk `skipped` report; logged-out notice; no requests before a click; phone layout; SPA; pt-BR | `test/browser/` (Playwright against mocked janitorai.com) | ✅ automated |
 | PNG + JSON V2/V3 cards, JSONL chat and World Info import into **SillyTavern 1.19.0** | `test/sillytavern/import.test.js` (real server and its card parser) | ✅ automated |
 | Card → open → chat import → 5 messages render; persona restore | `test/sillytavern/ui.test.js` (real SillyTavern UI) | ✅ automated |
 | Real janitorai.com data, SpicyChat, Saucepan, Android Firefox | by hand | ⏳ see below |
@@ -129,7 +131,7 @@ The build environment could not reach janitorai.com, SpicyChat or Saucepan, so t
 ```
 npm install            # playwright (uses PLAYWRIGHT_BROWSERS_PATH if set)
 npm test               # unit tests (node --test)
-npm run test:browser   # Playwright, mocked janitorai.com
+npm run test:browser   # Playwright, mocked janitorai.com (CHROME_BIN=/path/to/chrome to use a system Chrome)
 ST_DIR=/path/to/SillyTavern npm run test:sillytavern   # real SillyTavern (npm ci in ST_DIR first)
 SCREENSHOTS=docs/screenshots npm run test:browser      # also refresh the screenshots
 ```
