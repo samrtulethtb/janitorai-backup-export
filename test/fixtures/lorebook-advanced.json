@@ -1,0 +1,7 @@
+{
+  "id": "b7c1d2e3-0000-4000-8000-000000000003",
+  "title": "Court Intrigue (advanced)",
+  "is_public": true,
+  "script": "if (context.chat.last_message.includes('court')) { context.character.personality += ' The court is restless.'; }",
+  "settings": "{}"
+}

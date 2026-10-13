@@ -1,0 +1,9 @@
+{
+  "id": "b7c1d2e3-0000-4000-8000-000000000001",
+  "title": "Ash Kingdom",
+  "description": "<p>Places and people of the Ash Kingdom.</p>",
+  "is_public": true,
+  "creator_id": "6b8e1f2a-1111-4c3d-8e9f-0a1b2c3d4e5f",
+  "script": "[{\"key\":[\"castle\",\"Emberhold\"],\"content\":\"Emberhold is the black-stone castle of the Ash Kingdom.\",\"comment\":\"Emberhold\",\"constant\":false,\"enabled\":true,\"order\":100},{\"key\":\"general, Corvin\",\"content\":\"General Corvin commands the northern army and distrusts envoys.\",\"name\":\"Corvin\",\"enabled\":true,\"order\":90},{\"key\":[],\"content\":\"The kingdom has been at war for 12 years. 灰の王国.\",\"comment\":\"Always-on context\",\"constant\":true,\"enabled\":true,\"order\":200},{\"key\":[\"unused\"],\"content\":\"\",\"enabled\":true}]",
+  "settings": "{\"depth\":4}"
+}
