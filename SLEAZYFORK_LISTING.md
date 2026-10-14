@@ -1,4 +1,8 @@
-# Sleazy Fork listing (draft, not published)
+# Sleazy Fork listing
+
+Published 2026-10-14: https://sleazyfork.org/en/scripts/600237-janitorai-backup-export-chats-character-cards-lorebooks-to-sillytavern-spicychat-saucepan
+
+Listing images: `docs/promo/` (regenerate with `node tools/promo-images.js`).
 
 Copy for the Sleazy Fork script page. Every claim here is checked against the
 hard rules (SPEC §2) and the allowed claims (SPEC §6), and

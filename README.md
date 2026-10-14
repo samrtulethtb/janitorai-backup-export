@@ -6,7 +6,9 @@
 - **No tracking, no analytics,** nothing is sent anywhere else.
 - **Hidden definitions are never extracted.** If a creator hid a character's definition, you get the public parts and a plain note saying why.
 
-> Status: **v1.0.0, not published yet.** See [What still needs a real-world check](#what-still-needs-a-real-world-check).
+> **Install from [Sleazy Fork](https://sleazyfork.org/en/scripts/600237-janitorai-backup-export-chats-character-cards-lorebooks-to-sillytavern-spicychat-saucepan).** Status: v1.0.0, tested live on desktop Firefox. See [What still needs a real-world check](#what-still-needs-a-real-world-check).
+
+![Back up your JanitorAI chats and characters](docs/promo/1-character-card.png)
 
 ## What's new
 
@@ -21,7 +23,7 @@
 ## Install
 
 1. Install [Tampermonkey](https://www.tampermonkey.net/) or [Violentmonkey](https://violentmonkey.github.io/). On Android, use Firefox with Tampermonkey.
-2. Open [`janitor-backup-export.user.js`](janitor-backup-export.user.js) (raw) and confirm the install. (The Sleazy Fork listing will sync from the same file.)
+2. Open the script on **[Sleazy Fork](https://sleazyfork.org/en/scripts/600237-janitorai-backup-export-chats-character-cards-lorebooks-to-sillytavern-spicychat-saucepan)** and click **Install this script**. (Sleazy Fork syncs from [`janitor-backup-export.user.js`](janitor-backup-export.user.js) on `main`.)
 3. Open janitorai.com. A **⤓ Backup / Export** button appears in the corner. You can drag it anywhere.
 
 ## Use
