@@ -1,14 +1,36 @@
 // ==UserScript==
 // @name         JanitorAI Backup & Export – chats, character cards & lorebooks to SillyTavern, SpicyChat, Saucepan
-// @name:pt-BR   JanitorAI Backup e Exportação – chats, cartões de personagem e lorebooks para SillyTavern e mais
-// @name:es      JanitorAI Copia y Exportación – chats, tarjetas de personaje y lorebooks a SillyTavern y más
-// @name:id      JanitorAI Backup & Ekspor – chat, kartu karakter & lorebook ke SillyTavern, SpicyChat, Saucepan
+// @name:pt-BR  JanitorAI Backup e Exportação – chats, cartões de personagem e lorebooks para SillyTavern e mais
+// @name:es     JanitorAI Copia y Exportación – chats, tarjetas de personaje y lorebooks a SillyTavern y más
+// @name:id     JanitorAI Backup & Ekspor – chat, kartu karakter & lorebook ke SillyTavern, SpicyChat, Saucepan
+// @name:fr     JanitorAI Sauvegarde & Export – chats, cartes de personnage et lorebooks vers SillyTavern
+// @name:de     JanitorAI Backup & Export – Chats, Charakterkarten & Lorebooks für SillyTavern, SpicyChat
+// @name:it     JanitorAI Backup ed Esportazione – chat, schede personaggio e lorebook per SillyTavern
+// @name:ru     JanitorAI Бэкап и экспорт – чаты, карточки персонажей и лорбуки в SillyTavern, SpicyChat
+// @name:pl     JanitorAI Kopia i eksport – czaty, karty postaci i lorebooki do SillyTavern, SpicyChat
+// @name:tr     JanitorAI Yedekleme ve Dışa Aktarma – sohbetler, karakter kartları, lorebook → SillyTavern
+// @name:vi     JanitorAI Sao lưu & Xuất – chat, thẻ nhân vật & lorebook sang SillyTavern, SpicyChat
+// @name:ja     JanitorAI バックアップ＆エクスポート – チャット・キャラカード・ロアブックを SillyTavern へ
+// @name:ko     JanitorAI 백업 & 내보내기 – 채팅, 캐릭터 카드, 로어북을 SillyTavern·SpicyChat으로
+// @name:zh-CN  JanitorAI 备份与导出 – 聊天、角色卡和世界书导出到 SillyTavern、SpicyChat、Saucepan
+// @name:zh-TW  JanitorAI 備份與匯出 – 聊天、角色卡與世界書匯出到 SillyTavern、SpicyChat、Saucepan
 // @namespace    https://github.com/samrtulethtb/janitorai-backup-export
 // @version      1.0.0
 // @description  Back up your JanitorAI chats, characters, personas and lorebooks. Standards-correct V2/V3 PNG and JSON cards, SillyTavern JSONL chats that import, Markdown/TXT/HTML/JSON. Runs in your browser, talks only to janitorai.com, no tracking. Hidden definitions are never extracted.
 // @description:pt-BR Faça backup dos seus chats, personagens, personas e lorebooks do JanitorAI. Cartões V2/V3 PNG e JSON corretos, chats JSONL que importam no SillyTavern. Roda no seu navegador, fala só com janitorai.com, sem rastreamento. Definições ocultas nunca são extraídas.
-// @description:es Haz copia de tus chats, personajes, personas y lorebooks de JanitorAI. Tarjetas V2/V3 PNG y JSON correctas, chats JSONL que se importan en SillyTavern. Se ejecuta en tu navegador, solo habla con janitorai.com, sin rastreo. Nunca extrae definiciones ocultas.
+// @description:es Haz copia de tus chats, personajes, personas y lorebooks de JanitorAI. Tarjetas V2/V3 PNG y JSON correctas, chats JSONL que se importan en SillyTavern. Funciona en tu navegador, solo habla con janitorai.com, sin rastreo. Nunca extrae definiciones ocultas.
 // @description:id Cadangkan chat, karakter, persona, dan lorebook JanitorAI kamu. Kartu V2/V3 PNG dan JSON yang benar, chat JSONL yang bisa diimpor ke SillyTavern. Berjalan di browser kamu, hanya terhubung ke janitorai.com, tanpa pelacakan. Definisi tersembunyi tidak pernah diambil.
+// @description:fr Sauvegardez vos chats, personnages, personas et lorebooks JanitorAI. Cartes PNG et JSON V2/V3 conformes, chats JSONL qui s'importent dans SillyTavern. Tout se passe dans votre navigateur, uniquement avec janitorai.com, sans pistage. Les définitions masquées ne sont jamais extraites.
+// @description:de Sichere deine JanitorAI-Chats, Charaktere, Personas und Lorebooks. Standardkonforme V2/V3-Karten als PNG und JSON, SillyTavern-JSONL-Chats, die sich importieren lassen. Läuft in deinem Browser, spricht nur mit janitorai.com, kein Tracking. Versteckte Definitionen werden nie ausgelesen.
+// @description:it Salva chat, personaggi, persona e lorebook di JanitorAI. Schede V2/V3 PNG e JSON conformi, chat JSONL importabili in SillyTavern. Funziona nel tuo browser, comunica solo con janitorai.com, nessun tracciamento. Le definizioni nascoste non vengono mai estratte.
+// @description:ru Резервная копия ваших чатов, персонажей, персон и лорбуков JanitorAI. Корректные карточки V2/V3 в PNG и JSON, чаты JSONL, которые импортируются в SillyTavern. Работает в браузере, обращается только к janitorai.com, без слежки. Скрытые определения никогда не извлекаются.
+// @description:pl Kopia zapasowa czatów, postaci, person i lorebooków z JanitorAI. Poprawne karty V2/V3 w PNG i JSON, czaty JSONL, które importują się do SillyTavern. Działa w przeglądarce, łączy się tylko z janitorai.com, bez śledzenia. Ukryte definicje nigdy nie są wyciągane.
+// @description:tr JanitorAI sohbetlerini, karakterlerini, personalarını ve lorebook'larını yedekle. Standartlara uygun V2/V3 PNG ve JSON kartlar, SillyTavern'e aktarılabilen JSONL sohbetler. Tarayıcında çalışır, yalnızca janitorai.com ile konuşur, izleme yok. Gizli tanımlar asla çıkarılmaz.
+// @description:vi Sao lưu chat, nhân vật, persona và lorebook JanitorAI của bạn. Thẻ V2/V3 PNG và JSON đúng chuẩn, chat JSONL nhập được vào SillyTavern. Chạy trong trình duyệt, chỉ kết nối với janitorai.com, không theo dõi. Không bao giờ trích xuất định nghĩa bị ẩn.
+// @description:ja JanitorAI のチャット、キャラクター、ペルソナ、ロアブックをバックアップ。規格どおりの V2/V3 PNG・JSON カード、SillyTavern に取り込める JSONL チャット。ブラウザ内で動作し、通信先は janitorai.com のみ、トラッキングなし。非公開の定義は決して抽出しません。
+// @description:ko JanitorAI 채팅, 캐릭터, 페르소나, 로어북을 백업하세요. 규격에 맞는 V2/V3 PNG·JSON 카드, SillyTavern으로 가져올 수 있는 JSONL 채팅. 브라우저에서만 실행되고 janitorai.com 하고만 통신하며 추적이 없습니다. 숨겨진 정의는 절대 추출하지 않습니다.
+// @description:zh-CN 备份你的 JanitorAI 聊天、角色、人设和世界书。符合规范的 V2/V3 PNG 与 JSON 角色卡，可导入 SillyTavern 的 JSONL 聊天。完全在浏览器中运行，只与 janitorai.com 通信，无追踪。绝不提取被隐藏的角色定义。
+// @description:zh-TW 備份你的 JanitorAI 聊天、角色、人設與世界書。符合規範的 V2/V3 PNG 與 JSON 角色卡，可匯入 SillyTavern 的 JSONL 聊天。完全在瀏覽器中執行，只與 janitorai.com 通訊，無追蹤。絕不擷取被隱藏的角色定義。
 // @author       samrtulethtb
 // @license      MIT
 // @homepageURL  https://github.com/samrtulethtb/janitorai-backup-export

@@ -56,7 +56,7 @@ JanitorAI has no export button. This script adds one.
 
 ## Localized names (≤ 100 characters each)
 
-Machine-drafted. Please have a native speaker check them before publishing.
+Machine-drafted. Please have a native speaker check them before publishing. Every locale except `fil` is also in the script header (`@name:xx` / `@description:xx`), so Sleazy Fork shows them automatically; a test keeps the header and this file in sync. `fil` is left out of the header until Sleazy Fork's locale list is checked.
 
 | Locale | Name |
 |---|---|

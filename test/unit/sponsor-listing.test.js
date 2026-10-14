@@ -89,3 +89,17 @@ test('issue link carries no personal data', () => {
   assert.match(body, /Failed source: chat_api/);
   assert.equal(/token|cookie|Bearer/i.test(body), false);
 });
+
+test('header carries the listing names and descriptions for each locale it declares', () => {
+  const header = userscriptHeader();
+  const listing = fs.readFileSync(path.join(ROOT, 'SLEAZYFORK_LISTING.md'), 'utf8');
+  const listedNames = Object.fromEntries(Array.from(listing.matchAll(/^\| `([\w-]+)` \| (.+?) \|$/gm), (m) => [m[1], m[2]]));
+  const listedDescs = Object.fromEntries(Array.from(listing.matchAll(/^- \*\*([\w-]+):\*\* (.+)$/gm), (m) => [m[1], m[2]]));
+  const headerNames = Object.fromEntries(Array.from(header.matchAll(/^\/\/ @name:([\w-]+)\s+(.+)$/gm), (m) => [m[1], m[2].trim()]));
+  const headerDescs = Object.fromEntries(Array.from(header.matchAll(/^\/\/ @description:([\w-]+)\s+(.+)$/gm), (m) => [m[1], m[2].trim()]));
+  assert.ok(Object.keys(headerNames).length >= 14);
+  for (const [loc, name] of Object.entries(headerNames)) {
+    assert.equal(name, listedNames[loc], `@name:${loc}`);
+    assert.equal(headerDescs[loc], listedDescs[loc], `@description:${loc}`);
+  }
+});
