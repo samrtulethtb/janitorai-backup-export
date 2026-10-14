@@ -103,3 +103,19 @@ test('header carries the listing names and descriptions for each locale it decla
     assert.equal(headerDescs[loc], listedDescs[loc], `@description:${loc}`);
   }
 });
+
+test('Sleazy Fork description: only allowed markup, https images, and the required claims', () => {
+  const htmlDesc = fs.readFileSync(path.join(ROOT, 'docs', 'sleazyfork-description.html'), 'utf8');
+  // From https://greasyfork.org/en/help/allowed-markup (checked 2026-10-14).
+  const allowed = new Set('a abbr b blockquote br center cite code dd del details dfn div dl dt em h1 h2 h3 h4 h5 h6 hr i iframe img ins kbd li mark ol p pre q rp rt ruby s samp small span strike strong sub summary sup table tbody td tfoot th thead time tr tt u ul var video'.split(' '));
+  for (const [, tag] of htmlDesc.matchAll(/<\/?([a-z0-9]+)/gi)) assert.ok(allowed.has(tag.toLowerCase()), `tag <${tag}> is not allowed`);
+  for (const [, src] of htmlDesc.matchAll(/<img[^>]*\ssrc="([^"]+)"/g)) assert.match(src, /^https:\/\/(raw\.githubusercontent\.com\/samrtulethtb\/janitorai-backup-export\/main\/docs\/promo\/|img\.shields\.io\/badge\/)/, src);
+  for (const src of Array.from(htmlDesc.matchAll(/raw\.githubusercontent\.com\/samrtulethtb\/janitorai-backup-export\/main\/([^"]+)"/g), (m) => m[1])) {
+    assert.ok(fs.existsSync(path.join(ROOT, src)), `missing ${src}`);
+  }
+  assert.match(htmlDesc, /Runs entirely in your browser/);
+  assert.match(htmlDesc, /only to janitorai\.com/);
+  assert.match(htmlDesc, /No analytics, no tracking/);
+  assert.match(htmlDesc, /Hidden definitions are never extracted/);
+  assert.equal(/bypass|unlock hidden|reveal hidden/i.test(htmlDesc), false);
+});

@@ -6,11 +6,13 @@
 - **No tracking, no analytics,** nothing is sent anywhere else.
 - **Hidden definitions are never extracted.** If a creator hid a character's definition, you get the public parts and a plain note saying why.
 
-> **Install from [Sleazy Fork](https://sleazyfork.org/en/scripts/600237-janitorai-backup-export-chats-character-cards-lorebooks-to-sillytavern-spicychat-saucepan).** Status: v1.0.0, tested live on desktop Firefox. See [What still needs a real-world check](#what-still-needs-a-real-world-check).
+> **Install from [Sleazy Fork](https://sleazyfork.org/en/scripts/600237-janitorai-backup-export-chats-character-cards-lorebooks-to-sillytavern-spicychat-saucepan).** Status: v1.0.1, tested live on desktop Firefox. See [What still needs a real-world check](#what-still-needs-a-real-world-check).
 
 ![Back up your JanitorAI chats and characters](docs/promo/1-character-card.png)
 
 ## What's new
+
+**1.0.1**: script icon; new Sleazy Fork page (banner, screenshots, FAQ).
 
 **1.0.0**: first release.
 - Character cards: PNG with both `chara` (V2) and `ccv3` (V3) chunks, V2/V3 JSON, TXT, and raw JanitorAI JSON. Lorebooks are embedded or exported as SillyTavern World Info.

@@ -1,0 +1,94 @@
+<center>
+<img src="https://raw.githubusercontent.com/samrtulethtb/janitorai-backup-export/main/docs/promo/banner.png" alt="JanitorAI Backup &amp; Export">
+<br>
+<img src="https://img.shields.io/badge/SillyTavern-import%20tested-7c5cff?style=for-the-badge" alt="SillyTavern import tested">
+<img src="https://img.shields.io/badge/tracking-none-2ea44f?style=for-the-badge" alt="No tracking">
+<img src="https://img.shields.io/badge/runs-in%20your%20browser-555555?style=for-the-badge" alt="Runs in your browser">
+<a href="https://github.com/samrtulethtb/janitorai-backup-export"><img src="https://img.shields.io/badge/open%20source-MIT-181717?style=for-the-badge&amp;logo=github" alt="Open source, MIT"></a>
+</center>
+
+<h2>✨ The backup button JanitorAI never gave you</h2>
+<p>One purple <b>⤓ Backup / Export</b> button on janitorai.com saves your <b>chats, characters, personas and lorebooks</b>, in formats that import cleanly into <b>SillyTavern</b> and the other apps people are moving to.</p>
+
+<table>
+<thead><tr><th>What</th><th>You get</th></tr></thead>
+<tbody>
+<tr><td>💬 <b>Chats</b></td><td>SillyTavern JSONL that actually imports (rerolls become swipes), plus Markdown, TXT, readable HTML and full JSON</td></tr>
+<tr><td>🃏 <b>Character cards</b></td><td>PNG with V2 + V3 data and the real avatar, V2/V3 JSON, TXT, raw JanitorAI JSON</td></tr>
+<tr><td>📚 <b>Lorebooks</b></td><td>Inside the card, or as a separate SillyTavern World Info file</td></tr>
+<tr><td>🎭 <b>Personas</b></td><td>SillyTavern's persona backup format</td></tr>
+<tr><td>📦 <b>Back up everything</b></td><td>One ZIP with all of the above, a manifest, and a <code>skipped.json</code> that says what could not be saved and why</td></tr>
+</tbody>
+</table>
+
+<h2>🚀 Quick start</h2>
+<ol>
+<li>Install <a href="https://www.tampermonkey.net/">Tampermonkey</a> or <a href="https://violentmonkey.github.io/">Violentmonkey</a>.</li>
+<li>Click <b>Install this script</b> at the top of this page.</li>
+<li>Open janitorai.com, logged in. Click the purple <b>⤓ Backup / Export</b> button in the corner and pick what to save.</li>
+</ol>
+
+<center><img src="https://raw.githubusercontent.com/samrtulethtb/janitorai-backup-export/main/docs/promo/1-character-card.png" alt="The export panel on a character page"></center>
+
+<h2>💜 Why this one</h2>
+<ul>
+<li>✅ <b>Tested for real:</b> live exports from janitorai.com, imported into SillyTavern 1.19.0: card, chat and swipes, every message intact.</li>
+<li>🧩 <b>A checklist before every export.</b> Untick any part: system prompt, example dialogs, tags…</li>
+<li>✍️ <b>Your text stays your text.</b> Names are kept as written; switching to <code>{{char}}</code>/<code>{{user}}</code> is optional.</li>
+<li>🗂️ <b>A small export button on every card</b> in My Characters, favorites and creator pages, plus “export selected” and “export all”.</li>
+<li>🛟 <b>Never fails silently.</b> If JanitorAI changes something, the panel says which part broke and links to a prefilled report.</li>
+<li>🐢 <b>Polite to JanitorAI:</b> at most 2 requests at once, at least 1 second apart, and it pauses instead of hammering when the site says “slow down”.</li>
+<li>📱 <b>Touch-friendly:</b> big buttons, a draggable launcher and a bottom sheet on phones.</li>
+<li>🌍 Panel in English, Português (Brasil), Español and Bahasa Indonesia.</li>
+</ul>
+
+<h2>🔒 Privacy, plainly</h2>
+<ul>
+<li>Runs entirely in your browser, with your own login.</li>
+<li>Talks <b>only to janitorai.com</b> and its image server. No analytics, no tracking, nothing sent to us.</li>
+<li><b>Hidden definitions are never extracted.</b> If a creator hid a character's definition, you get the public parts (name, picture, tagline, tags, creator, stats) and the export says why. No proxy tricks. Characters you created yourself export in full.</li>
+</ul>
+
+<h2>🖼️ Screenshots</h2>
+<center>
+<img src="https://raw.githubusercontent.com/samrtulethtb/janitorai-backup-export/main/docs/promo/2-back-up-everything.png" alt="Back up everything into one ZIP">
+<img src="https://raw.githubusercontent.com/samrtulethtb/janitorai-backup-export/main/docs/promo/3-sillytavern-import.png" alt="A chat imported into SillyTavern">
+</center>
+
+<details>
+<summary><b>📥 How to import into SillyTavern</b> (click to open)</summary>
+<ol>
+<li><b>Character first:</b> Characters → <i>Import Character from File</i> → pick the <code>.png</code> (or <code>.card.json</code>). SillyTavern offers to import the tags.</li>
+<li><b>Then the chat:</b> open that character → <i>Manage chat files → Import chat</i> → pick the <code>.jsonl</code>. (SillyTavern only accepts a chat once the character has been opened.)</li>
+<li><b>Lorebooks</b> come inside the card. Separate <code>.lorebook.json</code> files go in <i>World Info → Import</i>.</li>
+<li><b>Personas:</b> <i>Persona Management → Restore</i> with <code>personas.json</code>. Names and descriptions come back; upload the pictures by hand.</li>
+</ol>
+</details>
+
+<details>
+<summary><b>❓ FAQ</b> (click to open)</summary>
+<p><b>Why is a character's definition empty?</b><br>Either the creator hid it (the panel says so), or you are logged out: JanitorAI only sends definitions to logged-in users, and the panel tells you to log in.</p>
+<p><b>“No chats found on this account”?</b><br>Comments on a character page are not chats. Start a chat with “Chat with …”, then back up again.</p>
+<p><b>SpicyChat or Saucepan?</b><br>Pick the “SpicyChat / Saucepan” target in the panel. It also fills the card's <code>personality</code> field.</p>
+<p><b>Does it work on phones?</b><br>It is built for Firefox for Android with Tampermonkey (bottom sheet, big buttons). It has been tested live on desktop Firefox so far; reports from phones are welcome.</p>
+</details>
+
+<details>
+<summary><b>🔐 Permissions, explained</b> (click to open)</summary>
+<ul>
+<li><code>@connect janitorai.com, ella.janitorai.com</code>: the only sites it may contact (the character data and the avatar images).</li>
+<li><code>GM_xmlhttpRequest</code>: to load avatar images so cards carry the real picture.</li>
+<li><code>GM_getValue / GM_setValue</code>: to remember your settings.</li>
+<li><code>GM_registerMenuCommand</code>: “Back up everything” in the Tampermonkey menu.</li>
+<li><code>unsafeWindow</code>: to reuse your existing janitorai.com login, so your chats can be read. It only looks at the login header of the site's own requests, never at their content, and never changes them.</li>
+</ul>
+</details>
+
+<details>
+<summary><b>📝 Changelog</b> (click to open)</summary>
+<p><b>1.0.1</b>: script icon and a new page.</p>
+<p><b>1.0.0</b>: first release. Cards, chats with swipes, lorebooks, personas, one-click full backup, per-card buttons on list pages, 15 listing languages.</p>
+</details>
+
+<hr>
+<center>🐛 Found a bug? Use <b>Report this</b> in the panel, or open an issue on <a href="https://github.com/samrtulethtb/janitorai-backup-export/issues">GitHub</a>. A ⭐ rating here helps others find it.</center>

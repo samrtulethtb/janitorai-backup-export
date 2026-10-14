@@ -159,6 +159,21 @@ async function phone(browser) {
   await pg.close();
 }
 
+async function banner(browser) {
+  const icon = fs.readFileSync(path.join(__dirname, '..', 'docs', 'promo', 'icon.svg')).toString('base64');
+  const pg = await browser.newPage({ viewport: { width: 1200, height: 400 } });
+  await pg.setContent(page('banner', `
+    <div style="position:absolute;inset:0;display:flex;align-items:center;gap:40px;padding:0 72px">
+      <img src="data:image/svg+xml;base64,${icon}" style="width:150px;height:150px;border-radius:34px;box-shadow:0 18px 50px rgba(124,92,255,.45)">
+      <div><div class="kicker">Userscript for janitorai.com</div>
+        <h1 style="font-size:54px;margin:10px 0 12px">JanitorAI Backup &amp; Export</h1>
+        <p class="lead" style="margin:0 0 22px;font-size:21px">Save your chats and characters. Take them to SillyTavern, SpicyChat or Saucepan.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">${['Chats + swipes', 'V2/V3 cards', 'Lorebooks', 'Personas', 'One-click full backup'].map((t) => `<span style="border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);border-radius:999px;padding:7px 14px;font-size:15px;color:#e8e5f0">${t}</span>`).join('')}</div>
+      </div></div>`));
+  await shot(pg, 'banner.png');
+  await pg.close();
+}
+
 (async () => {
   fs.mkdirSync(OUT, { recursive: true });
   await heroCard();
@@ -166,6 +181,7 @@ async function phone(browser) {
   await hidden();
   const browser = await chromium.launch({ executablePath: process.env.CHROME_BIN || undefined, env: Object.assign({}, process.env, { LANG: 'C.UTF-8', LC_ALL: 'C.UTF-8' }) });
   try {
+    await banner(browser);
     await sillyTavern(browser);
     await phone(browser);
   } finally {

@@ -15,7 +15,7 @@
 // @name:zh-CN  JanitorAI 备份与导出 – 聊天、角色卡和世界书导出到 SillyTavern、SpicyChat、Saucepan
 // @name:zh-TW  JanitorAI 備份與匯出 – 聊天、角色卡與世界書匯出到 SillyTavern、SpicyChat、Saucepan
 // @namespace    https://github.com/samrtulethtb/janitorai-backup-export
-// @version      1.0.0
+// @version      1.0.1
 // @description  Back up your JanitorAI chats, characters, personas and lorebooks. Standards-correct V2/V3 PNG and JSON cards, SillyTavern JSONL chats that import, Markdown/TXT/HTML/JSON. Runs in your browser, talks only to janitorai.com, no tracking. Hidden definitions are never extracted.
 // @description:pt-BR Faça backup dos seus chats, personagens, personas e lorebooks do JanitorAI. Cartões V2/V3 PNG e JSON corretos, chats JSONL que importam no SillyTavern. Roda no seu navegador, fala só com janitorai.com, sem rastreamento. Definições ocultas nunca são extraídas.
 // @description:es Haz copia de tus chats, personajes, personas y lorebooks de JanitorAI. Tarjetas V2/V3 PNG y JSON correctas, chats JSONL que se importan en SillyTavern. Funciona en tu navegador, solo habla con janitorai.com, sin rastreo. Nunca extrae definiciones ocultas.
@@ -33,6 +33,7 @@
 // @description:zh-TW 備份你的 JanitorAI 聊天、角色、人設與世界書。符合規範的 V2/V3 PNG 與 JSON 角色卡，可匯入 SillyTavern 的 JSONL 聊天。完全在瀏覽器中執行，只與 janitorai.com 通訊，無追蹤。絕不擷取被隱藏的角色定義。
 // @author       samrtulethtb
 // @license      MIT
+// @icon         data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjOGI2Y2ZmIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZDYyODk2Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9InVybCgjZykiLz48cGF0aCBkPSJNMzIgMTN2MjRtLTEwLTEwIDEwIDEwIDEwLTEwIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cGF0aCBkPSJNMTYgNDF2NmE0IDQgMCAwIDAgNCA0aDI0YTQgNCAwIDAgMCA0LTR2LTYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSI1LjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjwvc3ZnPgo=
 // @homepageURL  https://github.com/samrtulethtb/janitorai-backup-export
 // @supportURL   https://github.com/samrtulethtb/janitorai-backup-export/issues
 // @match        *://janitorai.com/*
@@ -73,7 +74,7 @@
   // Constants
   // ===========================================================================
 
-  const VERSION = '1.0.0';
+  const VERSION = '1.0.1';
   const EXPORTER_ID = 'janitorai-backup-export';
   const REPO_URL = 'https://github.com/samrtulethtb/janitorai-backup-export';
   const SITE_ORIGIN = 'https://janitorai.com';

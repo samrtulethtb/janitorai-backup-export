@@ -1,6 +1,6 @@
 {
   "name": "janitorai-backup-export",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "JanitorAI Backup & Export userscript: chats, character cards, personas and lorebooks to SillyTavern, SpicyChat and Saucepan.",
   "license": "MIT",

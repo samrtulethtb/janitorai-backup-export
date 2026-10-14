@@ -4,6 +4,8 @@ Published 2026-10-14: https://sleazyfork.org/en/scripts/600237-janitorai-backup-
 
 Listing images: `docs/promo/` (regenerate with `node tools/promo-images.js`).
 
+**The page description now lives in [`docs/sleazyfork-description.html`](docs/sleazyfork-description.html)** (HTML, only tags Sleazy Fork allows; images and badges load from GitHub raw and shields.io). Paste it into "Additional info" with the HTML format. The English text below is the plain fallback.
+
 Copy for the Sleazy Fork script page. Every claim here is checked against the
 hard rules (SPEC §2) and the allowed claims (SPEC §6), and
 `test/unit/sponsor-listing.test.js` checks the key ones.
