@@ -13,6 +13,7 @@ datacenter addresses anyway), so the JSON here was written by hand. The shapes f
 | `character-public.json` | `GET /hampter/characters/<uuid>`: public, `showdefinition: true`, alternate greetings, emoji/CJK |
 | `character-hidden.json` | the same endpoint for a hidden definition (the server returns definition fields as `null`) |
 | `real-character-sanitized.json` | a **real** `GET /hampter/characters/<uuid>` response from a live export (2026-10-14), run through `tools/sanitize-fixture.js`: real keys and nesting, placeholder text |
+| `real-chat-sanitized.json` | a **real** `GET /hampter/chats/<id>` response from the same live run (7 messages, newest first, the last reply still `is_main: false`), sanitized; chat and message IDs replaced |
 | `character-loggedout.json` | the same endpoint as a **logged-out** visitor sees it (shape reported from real data in the PR #1 review): `showdefinition: true`, but every definition field `null` and `token_counts` all 0; tags are objects with `created_at`/`description`/`id`/`name`/`slug`; names with emoji |
 | `character-nsfw.json` | NSFW, mixed tag shapes, absolute avatar URL |
 | `character-lorebook.json` | a character with two attached lorebooks (`scripts`) |

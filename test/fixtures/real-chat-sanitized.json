@@ -1,0 +1,125 @@
+{
+  "character": {
+    "allow_proxy": true,
+    "avatar": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "chat_name": "xxxxx",
+    "description": "<x>xxxxxx xxx xxxx xxxxxxxx xxxxxx xxxxxxxxxxxx xxx xxxxxxxxxxxx xxxxxx xxxxxx x xxxxxx xxxxxxx xxxx xx xxxx xxxx xxx xxxxxxxxxxx xx xxxx xxxx xxx xx xxx xxx xx xxxxx xxxx<xx><x>xxx xx xxxxxxxxxxx xxxxxx xx xxxx xxx xxxxx xxx xxxxxx xxxxxxx xxxx xxx xxxxx xxx xxxx xxx xxxx xxx xxxxxxxx xxx xx xxxx xxxxx xxxxxxxx xxxx xxx xxxxxx xxxxx xxxxxxx xxxxxx xxx xxxx xxx xx xxxxxxxxx<xx><x>xxx xxxxx xxx xxxxx xxxx xxxxxxxxx xxxx xxx xxxx xxx xxxx xx xxxx xxx xxxxx xxxx xxx xxxxxxxxx xx xxx xxx xxx xxxx xxxxxxx xx xxx xxxxx xxx xx xxx xxxxxxxx<xx><x>xxx xx xxxxxx xxx xxxx xxx xxxxxxxxx xx xxxx xxxx xxx xxxxxx xxxxxxx xx xxxxxxx<xx><x>xx xxx xxxx xxx xxxx xxx xxx xxxxx xxx xx xxx xxxxxxxxxxxx xxx xxx xxxxxxxxxxx xxxxx xxx xxxxxxxx xxxxxxxxx<xx>",
+    "first_message": "xxxxx xxxxx xx xx xxxx xxxxxxx x{{xxxx}}x xxx x xxx xxx x xxxxxxxxxx",
+    "first_messages": [
+      "xxxxx xxxxx xx xx xxxx xxxxxxx x{{xxxx}}x xxx x xxx xxx x xxxxxxxxxx"
+    ],
+    "id": "00000000-0000-4000-8000-000000000001",
+    "is_deleted": false,
+    "is_force_removed": false,
+    "is_image_nsfw": false,
+    "is_nsfw": true,
+    "is_public": true,
+    "name": "xxxxx xx x xxxx xx xxx",
+    "soundcloud_track_id": null
+  },
+  "chat": {
+    "can_publish": true,
+    "character_id": "00000000-0000-4000-8000-000000000001",
+    "created_at": "2026-10-14T16:58:20.047Z",
+    "id": 1000001,
+    "is_public": false,
+    "persona_id": null,
+    "published_message_count": null,
+    "published_slug": null,
+    "summary": "",
+    "summary_chat_id": null,
+    "user_id": "00000000-0000-4000-8000-000000000002"
+  },
+  "chatMessages": [
+    {
+      "chat_id": 1000001,
+      "created_at": "2026-10-14T17:03:52.723Z",
+      "id": 2000007,
+      "is_bot": true,
+      "is_main": false,
+      "message": "xxxxxxx xxxx xx xxxx xxxx xxxxxxxxxx xxx xxxxxx xxxxxxxxxxx xx xxx xxxxxxxxx xxxx xxxxxxxxx \"xxxxxx xxxxxxxxx xxx xxxxx xxxx xx *xxxxx*x\" xxx xxxxx xxxxxxx xxxxxxx xxxxxxxx xxxx xxx xxxxxxxxx \"xxx xxxxx xx xxxx xx xxxx xxxxxxx xxxxx\"\n\nxxx xxxxx x xxxx xx xxxxxx xxxxx xxxxx xxxxxxx xxxx xxxxxxxxxx xxxxxx xxx xxxxx xx xxx xxxxx xxx xxxxx xxxxx xxxx x xxxxx xxxxxxx \"xxxxxx xxxxxxx xxxxxxx xxx xxxx xxxxx xxxxxx xxxxxx xxxxx xx xxxxxxx xx xxxxxxxx xx xx xxxxx xxxxxx xx xxxxxx xxx xxx xx xxx xx xxx xx xxxxx xxx xxx xxxx xxxxxx xxxx xxxxxxxx xxxxx xxxxxxxx xxxx xxxx xxxxxxx xxxxxxxxxx\"\n\nxxx xxxxx xxxxxxxxx xxxxxxx xx xxxxx xx xxxx xxx xxxx xxxxx xxxx xxxxx xxx xxxxxx \"xxxxxx xxxxxxx xxxx xxxxxx xxxx xxx xxx xxx xxx xxx xxxxxx xxx xxxx xx xxxxxx xxxxxxxx xx xxxx x xxxx xxxx xxx xxxxxxxxx xxx xxxxxxxx xxxx\" xxx xxxx xxx xxxxxx xxxxxx xxxx xxxx xxxxxx xxx xxxx xxxxxxx xxxxxxxxxx \"xxxxxx xxxxxxxx xxxxxxxx xxxxx xxxxxx xxxx xxxxx xxxxxxx xxxxx xxxx xx xx xxx xxxxx\"\n\nxxx xxxx xxxxx xxxxxxxxxxx xx xxxx xxxx xxx xxx xxxxx xxxxxxxx xxxxxxxx xxxx xxxxx xxx xxxxx xxxx x xxxxx xxxx xx xxxxxxxxxx \"xx xx xxxx xxxxxx xxxxxxxx xxxxxx xxxxxxxx xxxxxx xx xxxxx xxxx xxxxxx xxxx\" xxx xxxxxxx xx xxxxxxxxx xxx xxxxx x xxxxxxx xxxxxx xxxxxx xxx xxxxx xx xx xxxxx xxxxxxxxxx xxxxx \"xxx xxx xxx xxxx xxxxxxxxxx xxxxx xxxxx x xxxx xxxx xxx xx xx xxxxxx xxxxx xxxxxx x xxxxxxx xxxxxxx\"\n\nxxx xxxxx xxx xxxxxxxx xxxx xxx xxxxxx xxxxxxxxx xx xxxxxxx xxx xxxxx xxxx x xxxxxxx \"xxxxx xxx xxxxxxx xxxx xxxx xxx xxxx xx xxxx xxxx xx xxx xxxxx xx xxx xxxx *xxxxx* xxxxx xxxxxx xxxxxx xxxxx xxx xxxxxx xx xxxxxx xxx xxx xx xxx xx xxxxxxx x xxxx xxxxxxx xxxx xxx xxxx xxx xx xxxxx xxxxx x xxxx xxx xxxxxxxxxx xxxx xxxxxxx xxxx xxx xxxxxx x xxx xxx xxxxx xxx\"",
+      "metadata": {
+        "generation_request_ids": [
+          "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        ]
+      },
+      "rating": null
+    },
+    {
+      "chat_id": 1000001,
+      "created_at": "2026-10-14T17:02:25.169Z",
+      "id": 2000006,
+      "is_bot": false,
+      "is_main": true,
+      "message": "xxxx xxxx xx xxxxxx xx xxx",
+      "metadata": {
+        "persona_id": null
+      },
+      "rating": null
+    },
+    {
+      "chat_id": 1000001,
+      "created_at": "2026-10-14T17:02:09.586Z",
+      "id": 2000005,
+      "is_bot": true,
+      "is_main": true,
+      "message": "xxxxxxx xxx xxxxx xx xxxxx xxxxxxxxx xxxxxx xxx xxxx xxxxxx xxxx xxxxxxxxx xxxxxxxx \"xxx xxxxxxxx xxxxxxx xxxxx xx xxxxx\" xxx xxxxxxxx xxx xxxxx xxxxxxx xxx xxx xxxxx xxxxxxxx \"xxx xxxxx xxxx xx xxxxx x xxxxxxx xxxxxxx xxx xxxxx xxx xxxxx x xxxxx xxx xx xxxxxxx\"\n\nxxx xxxxx x xxxxxx xxxxxxxx xxx xxxx x xxxx xxx xxxxx xx xxxxxxx xxx xxxxx xxxx x xxxxxxxxx xxxxxx xxx xxxxxxxxx xxxxxxxxx xx xxx xxxx xx xxx xxxx xx xx xxxxx xxxxxxxxxx xx xxxx xxxxx \"x xx xxxxxxx xx x xxxxxxx xxxxxx xxxx x xxxxxxxxx xxxxxx xxxxx xxxx xxxx xxxx xxxxx xxx xxxx xx xx xxx xxx xxxxxx xxxxx xxx xxxxxxx xxxxxx xxxxx xxxxx xxxxx xx xxxx xxxx xxxxx\"\n\nxxx xxxx xxxxx xxxx xxxx xx xxx xxxxx xxxxxxx xxxxxxxxxxxx xxxxxxxx xxxx xxxxxxxx xxxxx xx xxxxxxxxxx xxxx xxxxxx xxx xxxxx xxxxx xxxxxxxx xxxx xxx xxxxxxxxxxx \"xxxxxx xxxxxxx xxxx xxxx xx xxxxxx xxxxx xxx\" xxx xxxxxxx xxx xxxxx xxxxxxxx xx x xxxxxxxx xxxxxxxx \"xxxxxx xxxxxx xx xxxxxxx xx xx xxx xxx xxx xxxx xxx xxx xxxxx xxx xxxx xxx xxxxxxxxxx xxx xx xxxx xxx\"\n\nxxx xxxxx xxxxxxxx xxxxxxxxx xxxxxxxx xx x xxxxx xx xxxxxxx xxxxx xx xxx xxxxxxxx xxx xxxxx xxx xxxxxx xxxxxxx xxxx xx xxxxxxxx xxx xxxxx xxxxxx xxx xxxxxx xxxxxxxx xxx xxxxx xxxxxxx xxx xxxxx xxxxx xxxxx \"xxxxx xxxxxxxx xxxx xxx xxx xxxxxxx xx xxxx xxxx x xxxxxxx xxxxxxx xxxx xxx xxxxxxx xxxxx\" xxx xxxxxxx xx xxx xxx xx xxx xxxxxx xxx xxxxx xxxxxxxx xxxx xxxxxxxxxxxx xxxxx xxxxxxx xxxxxxx xx xxxxxxxx xxx xxxxxxxx xx xxx xx xxxxxx xxx xxxxxxxx xx xxxxxx\n\nxxx xxxxx xxxx xx xxxx xxxxx xx xxxxxxxxxxx xxxxxxx xx xxx xxxxx xxxxxx xxx xxxxxxx xx xxx xxxx xxxxx \"xxxxxx xxxxxxxxxxx\" xxx xxxxxx xxxxxx xxxxx xxxx xxx xxxxxxxx xxxx xxx xxxx xx xxx xxxxx \"xxxxxx x xxxxxxx xxxxxx xxxxxxxxxx x xxxxxxx xxxxxxxx xx xxx xx xxxx xx xxxxxxx xxx xxxxx xx xx xxxxxxx xxxxx xxx xxxxxx xx xxxxxx x xxxxx xx xxxx x xxxx xxxxx xxx xxxx x xxxxxxx xxxxxxx xxx xxxxx xxxxx x xxxxx xxxxxx xxx xxxxx xxxxxxxxx xxxxxx xxx xxxx xx xx xxx xxxxxx xx xx xxxxx xx xx xxx xxxx xxxx xxx xxxx xxx xxxxxxx xxxx xxx xx xxxx\"",
+      "metadata": {
+        "generation_request_ids": [
+          "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        ]
+      },
+      "rating": null
+    },
+    {
+      "chat_id": 1000001,
+      "created_at": "2026-10-14T17:00:37.750Z",
+      "id": 2000004,
+      "is_bot": false,
+      "is_main": true,
+      "message": "xxx xxx xxxxx xxxxx xxx xxx xx xxxx xxxxxxx",
+      "metadata": {
+        "persona_id": null
+      },
+      "rating": null
+    },
+    {
+      "chat_id": 1000001,
+      "created_at": "2026-10-14T17:00:17.602Z",
+      "id": 2000003,
+      "is_bot": true,
+      "is_main": true,
+      "message": "xxxxxxx xxxx xxxxxxxx xxxx xxxxxxxxx xxxxxxx xx xxxx xxxxxx xxxxx xxx xxxxxx xxxxx x xxxx xxxxxxxx xxx xxxx xxxxxxxx xxx xxxx xxxxx xxxxxxxxxxxxx xxxxx \"xxx xx x xxxxxx xxx xxx xxxxxxx xxxxxxx xxxxx xxxx xxx xxxxxxx xxxxxxxx\" xxx xxxxxxxx xxxxxxxx xxxxxxx xxxxx xxxxx xxxxxx xxxx xxxx xxxxx xxx xxxxx xxxxxx xxxxx xxx xxxxxx xxxxx xxxxxx xxxxxxxxxxx xxxxxxxx xxx xxxxxx xxxxxxxx xx xxx xxxx xxxx xxxxxxxxx\n\nxxx xxxx x xxxxxx xxxx xxxx xxxx xxxxxx xxxxxxx xx xxxxxxxxxx \"xx xxx xxxxxxx xx xxxx xxxxxxx xxxxxxx xxxxxx xxxxxxx xx xxxx xxx xxxxxx xxxxxx xxx xxx *xxxxx*x xxxxxx xxxx x xxxxxxx xxxxxxxx\"\n\nxx x xxx xx xxxxx xxx xxxxx xxxxxx xxx xxxxx x xxxxxxxxxx xxxx x xxxxxx xxxxxx xxxxxxx xx xx xxx xxxx xxxx xxx xxx xxxxxx xxx xxxx xxxxxxx xxx xxxx x xxxx *xxxxxx* xxx xxxxx xxxx xxxx xxxxx \"xx xxxxxxxxx xxxxxx xxx xxxx xx xxxx xxxxxxxx xxxx xxxxxxx xx xxxxxxxx xxxxx xxxx x xxxxxxx xxxxxx\" xxx xxxxx xxxx xx xxxx xxx xxxx xxxxxxxxx xx xxx xxxxxxx xxxxx xxxxxx xxxxxxxx xxx xxxxxxxxxx xxxxxx xxxx xxxxx xx xxxxxxxxx xxxxxxxxxx \"xxxx xxx xxxx xxxxxxx xxxxxx xxx xxx xxxxxxxx x xxxxx xx xxxx xx x xxxxx xxx xxxxxxx xx xx xxxx xx xxxxxx xx xxxx xx xx xxxxx xxx xxxx xxxxx xxxx xxxxxxx xxxx xxxx\"\n\nxxx xxxxx xxx xxxxxx xxxxxxxxxxx xxxxxxx xx xxx xxxxxxx \"xxxxxxx xx xxxxxxx xxxxxxx xx xxxxxxx xxxxx\" xxx xxxxxxxx xxx xxxxx xxxxxxxx xxxx xxxxxxxxxxxx \"x xxxxx xxxx xxxxxx x xxxxx xxxx xxxxxxx xxxxx xxxxx xxxx xxxxx xxxxxxxx xxxxxxx xxxxxxx xxxxxx xxx xxxxxx xx xxxx x xxxx\"\n\nxxx xxxxxxxxx xxxxxxx xxxxxxx xxx xxxxx xx xxx xxxxxxx xxxxxx xxx xxxxxx xxxxxxxxx xxxxx \"xxxx xxxxx xx xxxxxxx xxxxx\" xxx xxxxxxxxx xxx xxxx xxxxxxx xxxxxx xxxxxxxxxx \"xxx xxxxxx xxxx xxxxxxxx xxxxxxxx xxxxxxxx xxxx xxx xxxx xx xxxxx xxxx xxxx xxxxx xxxxx xxxxxxxxx xxxxx xxxxx xxxxx xxxx xx xxxxxxx xxxxxxxx xx xxxxxxxxxx xxxx xxxx xxxxxxx xx xx xxxx xxx xxxx xxxx xx xxxxx\"",
+      "metadata": {
+        "generation_request_ids": [
+          "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        ]
+      },
+      "rating": null
+    },
+    {
+      "chat_id": 1000001,
+      "created_at": "2026-10-14T16:58:47.388Z",
+      "id": 2000002,
+      "is_bot": false,
+      "is_main": true,
+      "message": "xxxx xxx xxx xxxxxxxxxx x",
+      "metadata": {
+        "persona_id": null
+      },
+      "rating": null
+    },
+    {
+      "chat_id": 1000001,
+      "created_at": "2026-10-14T16:58:20.047Z",
+      "id": 2000001,
+      "is_bot": true,
+      "is_main": true,
+      "message": "xxxxx xxxxx xx xx xxxx xxxxxxx x{{xxxx}}x xxx x xxx xxx x xxxxxxxxxx",
+      "metadata": null,
+      "rating": null
+    }
+  ],
+  "fork_source_chat_id": null,
+  "personas": []
+}

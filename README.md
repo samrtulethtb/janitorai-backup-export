@@ -109,11 +109,11 @@ The code has one optional sponsor card (SPEC §7). It ships **disabled** (`SPONS
 
 ### What still needs a real-world check
 
-**First live run (2026-10-14, Firefox + Tampermonkey, logged in):** the button and panel appear on the home and character pages, and a public card exports correctly: the real avatar is re-encoded to PNG, both chunks are present, every definition field is filled, and SillyTavern's own parser reads it. It also found two bugs, both now fixed: a duplicate alternate greeting (JanitorAI adds a credit line to `first_message`) and a silent empty backup when the account has no chats.
+**First live run (2026-10-14, Firefox + Tampermonkey, logged in):** the button and panel appear on the home and character pages, and a public card exports correctly: the real avatar is re-encoded to PNG, both chunks are present, every definition field is filled, and SillyTavern's own parser reads it. It also found two bugs, both now fixed: a duplicate alternate greeting (JanitorAI adds a credit line to `first_message`) and a silent empty backup when the account has no chats. A second run with a real chat confirmed the chat API shape (`chatMessages` newest first, with `is_bot`, `is_main`, `message`, `created_at`): "Back up everything" saved the card and the chat with all 7 messages, and both imported into SillyTavern 1.19.0 with every message intact.
 
 The build environment could not reach janitorai.com, SpicyChat or Saucepan, so the following have **not** been verified yet:
 
-1. **Live janitorai.com smoke test, the rest** (owner, logged in): one own card, one real chat, one full backup with chats in it (SPEC §9).
+1. **Live janitorai.com smoke test, the rest** (owner, logged in): one own card, and a chat with a rejected reroll (swipe) to confirm `is_main` semantics (SPEC §9).
 2. **Real API shapes.** The fixtures are synthetic (see [`test/fixtures/README.md`](test/fixtures/README.md)). Confirm:
    - the chat message fields (`is_bot`, `is_main`, `message`, `created_at`) and that `is_main: false` really marks rejected regenerations (they become swipes);
    - the lorebook entry fields inside `/hampter/script/<id>` → `script` (the mapper accepts `key`/`keys`/`keywords`, `content`/`text`, `comment`/`name`);

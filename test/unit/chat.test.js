@@ -107,3 +107,15 @@ test('buildChatFiles: names per format', () => {
   assert.deepEqual(files.map((f) => f.name), ['base.jsonl', 'base.md', 'base.txt', 'base.html', 'base.json']);
   assert.equal(core.chatBaseName(aikoChat(), Date.UTC(2026, 9, 13)), 'Aiko 🌸 Tanaka - chat 48151623 - Rainy reunion - 2026-10-13');
 });
+
+test('real data: a sanitized live chat (newest first, last reply still is_main:false) exports every message', () => {
+  // Captured 2026-10-14 from a live "Back up everything" run, then sanitized.
+  const raw = fixture('real-chat-sanitized.json');
+  const chat = core.normalizeChat(raw, { chatId: raw.chat.id });
+  assert.equal(chat.messages.length, 7);
+  assert.deepEqual(chat.messages.map((m) => (m.isUser ? 'U' : 'B') + m.text.length), ['B68', 'U25', 'B1847', 'U43', 'B1986', 'U26', 'B1734']);
+  assert.equal(chat.userName, 'You', 'no persona on the account');
+  const jsonl = core.buildSillyTavernJsonl(chat);
+  assert.deepEqual(core.validateSillyTavernJsonl(jsonl), []);
+  assert.equal(core.parseJsonl(jsonl).length, 8);
+});
