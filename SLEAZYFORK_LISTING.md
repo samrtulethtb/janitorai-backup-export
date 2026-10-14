@@ -36,7 +36,7 @@ JanitorAI has no export button. This script adds one.
 - Every card has a small export button on My Characters, favorites and creator pages, plus "export selected" and "export all".
 - Large batches are throttled, retry on errors, can resume, and never drop items silently.
 - When JanitorAI changes something, the panel tells you which part broke and links to a prefilled report. It never just does nothing.
-- Works on desktop and in Firefox for Android (Tampermonkey), with big touch targets and a bottom sheet on phones.
+- Tested live on desktop Firefox with Tampermonkey. Built for phones too (Firefox for Android): big touch targets and a bottom sheet.
 - Panel in English, Português (Brasil), Español and Bahasa Indonesia.
 
 **Privacy**
