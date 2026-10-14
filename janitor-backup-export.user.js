@@ -913,11 +913,25 @@
     return out;
   }
 
+  // JanitorAI appends a credit line to `first_message` ("created by <name>
+  // 2026© on janitorai.com") but not to the same greeting in `first_messages`.
+  // Seen on real data; without this the greeting shows up twice.
+  const GREETING_CREDIT_RE = /\s*created by\s[^\n]{0,120}?janitorai\.com\s*$/i;
+
+  function greetingKey(text) {
+    return str(text).replace(GREETING_CREDIT_RE, '').replace(/\s+/g, ' ').trim();
+  }
+
   function collectGreetings(raw) {
     const list = [];
+    const keys = new Set();
     const push = (m) => {
       const text = str(m && typeof m === 'object' ? m.message || m.text || m.content : m);
-      if (text.trim() && !list.includes(text)) list.push(text);
+      const key = greetingKey(text);
+      if (key && !keys.has(key)) {
+        keys.add(key);
+        list.push(text);
+      }
     };
     push(raw.first_message);
     if (Array.isArray(raw.first_messages)) raw.first_messages.forEach(push);
@@ -1708,6 +1722,18 @@ ${rows}
     return str(e.message || e);
   }
 
+  /**
+   * One page of a chat list response. Returns `{ batch, hasMore }`, or null
+   * when none of the known array keys is there (JanitorAI changed the API), so
+   * the caller can say so instead of exporting nothing.
+   */
+  function readListPage(resp, keys) {
+    if (!resp || typeof resp !== 'object') return null;
+    const key = keys.find((k) => Array.isArray(resp[k]));
+    if (!key) return Array.isArray(resp) ? { batch: resp, hasMore: false } : null;
+    return { batch: resp[key], hasMore: resp.hasMore === true || resp.has_more === true };
+  }
+
   function buildManifest(info) {
     const i = info || {};
     return {
@@ -1827,6 +1853,7 @@ ${rows}
       pick_format: 'Pick at least one format.',
       no_cards_found: 'No character cards found on this page yet. Scroll to load them.',
       no_personas: 'No personas found. Open your personas page or a chat, then try again.',
+      no_chats_found: 'No chats found on this account, so there is nothing to back up yet. Chat with a character first (comments on a character page are not chats).',
       set_card_formats: 'Default card formats',
       set_chat_formats: 'Default chat formats',
       set_template: 'File name template',
@@ -1924,6 +1951,7 @@ ${rows}
       pick_format: 'Escolha pelo menos um formato.',
       no_cards_found: 'Nenhum cartão encontrado nesta página ainda. Role para carregar.',
       no_personas: 'Nenhuma persona encontrada. Abra sua página de personas ou um chat e tente de novo.',
+      no_chats_found: 'Nenhum chat encontrado nesta conta, então ainda não há nada para salvar. Converse com um personagem primeiro (comentários na página do personagem não são chats).',
       set_card_formats: 'Formatos padrão de cartão',
       set_chat_formats: 'Formatos padrão de chat',
       set_template: 'Modelo de nome de arquivo',
@@ -2017,6 +2045,7 @@ ${rows}
       pick_format: 'Elige al menos un formato.',
       no_cards_found: 'Aún no hay tarjetas en esta página. Desplázate para cargarlas.',
       no_personas: 'No se encontraron personas. Abre tu página de personas o un chat y vuelve a intentarlo.',
+      no_chats_found: 'No hay chats en esta cuenta, así que aún no hay nada que guardar. Chatea primero con un personaje (los comentarios en su página no son chats).',
       set_card_formats: 'Formatos de tarjeta por defecto',
       set_chat_formats: 'Formatos de chat por defecto',
       set_template: 'Plantilla de nombre de archivo',
@@ -2110,6 +2139,7 @@ ${rows}
       pick_format: 'Pilih setidaknya satu format.',
       no_cards_found: 'Belum ada kartu karakter di halaman ini. Gulir untuk memuatnya.',
       no_personas: 'Tidak ada persona. Buka halaman persona kamu atau sebuah chat, lalu coba lagi.',
+      no_chats_found: 'Tidak ada chat di akun ini, jadi belum ada yang bisa dicadangkan. Chat dengan karakter dulu (komentar di halaman karakter bukan chat).',
       set_card_formats: 'Format kartu bawaan',
       set_chat_formats: 'Format chat bawaan',
       set_template: 'Templat nama file',
@@ -2239,7 +2269,7 @@ ${rows}
     normalizeChat, buildSillyTavernJsonl, parseJsonl, validateSillyTavernJsonl,
     buildChatMarkdown, buildChatText, buildChatHtml, buildChatJson, buildChatFiles, chatBaseName,
     normalizePersona, dedupePersonas, buildSillyTavernPersonaBackup,
-    createLimiter, HttpError, throttleDelayMs, isRetryable, computeBackoff, withRetry, runBulk, describeError, buildManifest,
+    createLimiter, HttpError, throttleDelayMs, isRetryable, readListPage, greetingKey, computeBackoff, withRetry, runBulk, describeError, buildManifest,
     buildSponsorUrl, shouldShowSponsor, pickLocale, translate, buildIssueUrl,
   };
 
@@ -2534,10 +2564,10 @@ ${rows}
     const out = [];
     for (let page = 1; page < 500; page++) {
       const j = await apiGet(`/hampter/chats/character-chats?page=${page}`, 'chat_list_api');
-      const batch = (j && (j.characters || j.data)) || [];
-      if (!Array.isArray(batch)) throw new HttpError('Unexpected chat list response', { source: 'chat_list_api' });
-      out.push(...batch);
-      if (!j.hasMore || !batch.length) break;
+      const pg = readListPage(j, ['characters', 'data']);
+      if (!pg) throw new HttpError('Unexpected chat list response', { source: 'chat_list_api' });
+      out.push(...pg.batch);
+      if (!pg.hasMore || !pg.batch.length) break;
     }
     return out;
   }
@@ -2546,10 +2576,10 @@ ${rows}
     const out = [];
     for (let page = 1; page < 500; page++) {
       const j = await apiGet(`/hampter/chats/character/${encodeURIComponent(characterId)}/chats?page=${page}`, 'chat_list_api');
-      const batch = (j && (j.chats || j.data)) || [];
-      if (!Array.isArray(batch)) throw new HttpError('Unexpected chat list response', { source: 'chat_list_api' });
-      out.push(...batch);
-      if (!j.hasMore || !batch.length) break;
+      const pg = readListPage(j, ['chats', 'data']);
+      if (!pg) throw new HttpError('Unexpected chat list response', { source: 'chat_list_api' });
+      out.push(...pg.batch);
+      if (!pg.hasMore || !pg.batch.length) break;
     }
     return out;
   }
@@ -2673,6 +2703,11 @@ ${rows}
       if (mode === 'all') {
         const seen = new Set(items.filter((x) => x.kind === 'character').map((x) => x.id));
         for (const id of store.get('ownCharacterIds', [])) if (!seen.has(id)) items.unshift({ kind: 'character', id, name: id, listChar: null });
+      }
+      // Nothing to export: say so instead of saving an empty ZIP.
+      if (!items.length) {
+        ui.job = null;
+        throw new Error(t('no_chats_found'));
       }
       job.items = items;
     }

@@ -185,3 +185,35 @@ test('htmlToText handles entities, lists and scripts', () => {
   assert.equal(core.htmlToText('<ul><li>One</li><li>Two &#x1F338;</li></ul><script>alert(1)</script><p>A&nbsp;&amp;&nbsp;B</p>'), '- One\n- Two 🌸\nA & B');
   assert.equal(core.htmlToText(null), '');
 });
+
+test('real data: the credit line JanitorAI adds to first_message does not create a duplicate greeting', () => {
+  // Shape seen on a live export (2026-10-14): first_message = first_messages[0] + a credit line.
+  const greeting = "*you're chilling in bed with Eva in her messy room.* \"Hey.\"";
+  const raw = Object.assign(fixture('character-public.json'), {
+    first_message: `${greeting}\n\ncreated by bigbody 2026© on janitorai.com`,
+    first_messages: [greeting],
+  });
+  const d = map(raw);
+  assert.equal(d.first_mes, raw.first_message, 'the greeting JanitorAI shows is kept as is');
+  assert.deepEqual(d.alternate_greetings, [], 'no near-duplicate alternate greeting');
+  // A real second greeting is still kept.
+  raw.first_messages = [greeting, 'A different opening.'];
+  assert.deepEqual(map(raw).alternate_greetings, ['A different opening.']);
+  assert.equal(core.greetingKey('Hi\n\nCreated by Some Name 2025 © on JanitorAI.com  '), 'Hi');
+});
+
+test('real data: sanitized live character response maps to valid V2/V3 cards', () => {
+  const raw = fixture('real-character-sanitized.json');
+  const g = core.guardCharacter(raw, STRANGER);
+  assert.equal(g.definitionHidden, false);
+  const out = core.buildCharacterFiles({ guarded: g, formats: ['png', 'json_v2', 'json_v3'], baseName: 'x', now: 0 });
+  assert.deepEqual(out.errors, []);
+  const d = out.data;
+  assert.equal(d.description.length, raw.personality.length);
+  assert.equal(d.scenario.length, raw.scenario.length);
+  assert.equal(d.mes_example.length, raw.example_dialogs.length);
+  // Sanitizing turns tag names into placeholders (two may collide) and blanks the credit line,
+  // so only the structure is checked here; the credit case has its own test above.
+  assert.ok(d.tags.length > 0 && d.tags.length <= raw.tags.length);
+  assert.equal(d.first_mes, raw.first_message);
+});

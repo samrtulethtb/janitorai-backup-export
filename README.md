@@ -109,9 +109,11 @@ The code has one optional sponsor card (SPEC §7). It ships **disabled** (`SPONS
 
 ### What still needs a real-world check
 
-The build environment could not reach janitorai.com, SpicyChat or Saucepan, so the following have **not** been verified:
+**First live run (2026-10-14, Firefox + Tampermonkey, logged in):** the button and panel appear on the home and character pages, and a public card exports correctly: the real avatar is re-encoded to PNG, both chunks are present, every definition field is filled, and SillyTavern's own parser reads it. It also found two bugs, both now fixed: a duplicate alternate greeting (JanitorAI adds a credit line to `first_message`) and a silent empty backup when the account has no chats.
 
-1. **Live janitorai.com smoke test** (owner, logged in): one public card, one own card, one chat, one full backup (SPEC §9).
+The build environment could not reach janitorai.com, SpicyChat or Saucepan, so the following have **not** been verified yet:
+
+1. **Live janitorai.com smoke test, the rest** (owner, logged in): one own card, one real chat, one full backup with chats in it (SPEC §9).
 2. **Real API shapes.** The fixtures are synthetic (see [`test/fixtures/README.md`](test/fixtures/README.md)). Confirm:
    - the chat message fields (`is_bot`, `is_main`, `message`, `created_at`) and that `is_main: false` really marks rejected regenerations (they become swipes);
    - the lorebook entry fields inside `/hampter/script/<id>` → `script` (the mapper accepts `key`/`keys`/`keywords`, `content`/`text`, `comment`/`name`);

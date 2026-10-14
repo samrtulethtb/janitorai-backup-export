@@ -181,3 +181,13 @@ test('bulk pauses (not skips) on 403 firewall answers and on 429 after retries',
   assert.equal(new core.HttpError('x', { status: 404 }).fatal, false);
   assert.equal(new core.HttpError('x', { status: 500 }).fatal, false);
 });
+
+test('chat list pages: known shapes read, unknown shapes reported instead of read as empty', () => {
+  assert.deepEqual(core.readListPage({ characters: [{ id: 1 }], hasMore: true }, ['characters', 'data']), { batch: [{ id: 1 }], hasMore: true });
+  assert.deepEqual(core.readListPage({ characters: [], hasMore: false }, ['characters', 'data']), { batch: [], hasMore: false });
+  assert.deepEqual(core.readListPage({ data: [{ id: 2 }], has_more: true }, ['characters', 'data']), { batch: [{ id: 2 }], hasMore: true });
+  assert.deepEqual(core.readListPage([{ id: 3 }], ['chats']), { batch: [{ id: 3 }], hasMore: false });
+  assert.equal(core.readListPage({ items: [] }, ['characters', 'data']), null);
+  assert.equal(core.readListPage({ characters: 'nope' }, ['characters']), null);
+  assert.equal(core.readListPage(null, ['characters']), null);
+});

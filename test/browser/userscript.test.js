@@ -438,3 +438,41 @@ test('no API requests until the user asks: loading pages and list cards sends no
     await env.browser.close();
   }
 });
+
+test('account with no chats: says so instead of saving an empty backup', async () => {
+  const env = await setup();
+  try {
+    const { page, context } = env;
+    await context.route('https://janitorai.com/hampter/chats/character-chats?page=1', (route) => route.fulfill({
+      status: 200, contentType: 'application/json', body: JSON.stringify({ characters: [], hasMore: false }),
+    }));
+    await env.open('/');
+    let downloads = 0;
+    page.on('download', () => { downloads++; });
+    await page.locator('[data-jbe="fab"]').click();
+    await page.locator('[data-jbe="backup-all"]').click();
+    await page.locator('[data-jbe="status"]', { hasText: 'No chats found on this account' }).waitFor();
+    await page.locator('[data-jbe="export-all-chats"]').click();
+    await page.locator('[data-jbe="status"]', { hasText: 'No chats found on this account' }).waitFor();
+    await page.waitForTimeout(500);
+    assert.equal(downloads, 0);
+  } finally {
+    await env.browser.close();
+  }
+});
+
+test('chat list in an unknown shape: the panel names the broken source', async () => {
+  const env = await setup();
+  try {
+    const { page, context } = env;
+    await context.route('https://janitorai.com/hampter/chats/character-chats?page=1', (route) => route.fulfill({
+      status: 200, contentType: 'application/json', body: JSON.stringify({ results: [{ id: 1 }] }),
+    }));
+    await env.open('/');
+    await page.locator('[data-jbe="fab"]').click();
+    await page.locator('[data-jbe="export-all-chats"]').click();
+    await page.locator('[data-jbe="extra"]', { hasText: 'JanitorAI changed its chat list API' }).waitFor();
+  } finally {
+    await env.browser.close();
+  }
+});
