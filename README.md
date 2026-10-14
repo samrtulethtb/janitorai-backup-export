@@ -113,7 +113,7 @@ The code has one optional sponsor card (SPEC §7). It ships **disabled** (`SPONS
 
 The build environment could not reach janitorai.com, SpicyChat or Saucepan, so the following have **not** been verified yet:
 
-1. **Live janitorai.com smoke test, the rest** (owner, logged in): one own card, and a chat with a rejected reroll (swipe) to confirm `is_main` semantics (SPEC §9).
+1. **Live janitorai.com smoke test, the rest** (owner, logged in): one own card (SPEC §9). A third run with a reroll confirmed swipes: on the latest turn every reply is `is_main: false` until the user writes again; the export keeps both as swipes with the newest selected, and SillyTavern loads them that way.
 2. **Real API shapes.** The fixtures are synthetic (see [`test/fixtures/README.md`](test/fixtures/README.md)). Confirm:
    - the chat message fields (`is_bot`, `is_main`, `message`, `created_at`) and that `is_main: false` really marks rejected regenerations (they become swipes);
    - the lorebook entry fields inside `/hampter/script/<id>` → `script` (the mapper accepts `key`/`keys`/`keywords`, `content`/`text`, `comment`/`name`);

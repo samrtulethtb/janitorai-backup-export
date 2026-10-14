@@ -1281,8 +1281,10 @@
 
   /**
    * Turns a `/hampter/chats/<id>` response into a normalized chat.
-   * Messages with `is_main === false` are regenerations the user did not keep;
-   * they become swipes of the bot reply in the same turn.
+   * Bot messages with `is_main === false` become swipes of the bot reply in the
+   * same turn. On earlier turns they are rerolls the user did not keep. On the
+   * latest turn every reply is `is_main: false` until the user writes again
+   * (seen live), so the newest one is the selected swipe.
    */
   function normalizeChat(resp, ctx) {
     const c = ctx || {};

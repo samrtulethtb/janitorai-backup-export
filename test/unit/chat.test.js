@@ -108,12 +108,17 @@ test('buildChatFiles: names per format', () => {
   assert.equal(core.chatBaseName(aikoChat(), Date.UTC(2026, 9, 13)), 'Aiko 🌸 Tanaka - chat 48151623 - Rainy reunion - 2026-10-13');
 });
 
-test('real data: a sanitized live chat (newest first, last reply still is_main:false) exports every message', () => {
+test('real data: a sanitized live chat with a reroll on the last turn exports every message and both swipes', () => {
   // Captured 2026-10-14 from a live "Back up everything" run, then sanitized.
+  // Newest first; on the latest turn BOTH replies are is_main:false (JanitorAI
+  // only marks the kept one once the user writes again); the newest is shown.
   const raw = fixture('real-chat-sanitized.json');
   const chat = core.normalizeChat(raw, { chatId: raw.chat.id });
   assert.equal(chat.messages.length, 7);
-  assert.deepEqual(chat.messages.map((m) => (m.isUser ? 'U' : 'B') + m.text.length), ['B68', 'U25', 'B1847', 'U43', 'B1986', 'U26', 'B1734']);
+  assert.deepEqual(chat.messages.map((m) => (m.isUser ? 'U' : 'B') + m.text.length), ['B68', 'U25', 'B1847', 'U43', 'B1986', 'U26', 'B1764']);
+  const last = chat.messages[6];
+  assert.deepEqual(last.swipes.map((s) => s.text.length), [1734, 1764]);
+  assert.equal(last.swipeIndex, 1, 'the newest reroll is the selected swipe');
   assert.equal(chat.userName, 'You', 'no persona on the account');
   const jsonl = core.buildSillyTavernJsonl(chat);
   assert.deepEqual(core.validateSillyTavernJsonl(jsonl), []);

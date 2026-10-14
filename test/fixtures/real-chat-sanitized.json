@@ -33,6 +33,20 @@
   "chatMessages": [
     {
       "chat_id": 1000001,
+      "created_at": "2026-10-14T17:09:57.045Z",
+      "id": 2000008,
+      "is_bot": true,
+      "is_main": false,
+      "message": "xxxxx xxxxxxx xxx xxxxxxx xxx xxxxx xxxxx xxxxxx xxxx xxxxxx xxx x xxxxx xxxxxxx xxxxx xx x xxxxxxx xxxxxxx xx xxx xxxxxxxxx xxxx xxxxxx xxxxx xxx xxxxxxxxx\n\n\"xxx xxxxx xxxx xx *xxxxx*x xxx xxxxx xxxx xx xxxx xxxxxxx xxxxx\" xxx xxxxxxxx xxx xxxxx xxxxxxxx xxxx xxx xxxxx \"xxxxxx xxxxxxxxx xxxxx xxx xxxxxxx xx xxxx xxxx x xxxxxxx xxxxx xxx xxxxx xxxx xxxxxxx xxx xxx xxxxxxx xxxxxxxxx\"\n\nxxx xxxxx x xxxxxxx xx xxxxxx xxxxx xxxx x xxxxxx xxx xxxxx xxxx xx xxxx xxxxx xx xxxxx xxxxxxxxxxx \"xxxx xxxxx xxxxxxx xxxx xxx xxxxxxx xxxxxx xxxx xx xxxxxxxxxxx xx xxxx xx xx xxxx xxxxxxx xxx xxxxx xx x xxxxxxx xxxx xxxx xxx xxxx xxxxxxxx xxxxx xx xxxx xxxxxxx\" xxx xxxxx xxxxxx xxx xxxx xxxxx xxx xxxxxxx xxxxxx xxx xxxxxx\n\nxxx xxxxxxxxx xx xxxxxxx xxxx xxx xxxxx xxxxxx xxx xxxxxxx xxxxxxx xxxxxxx xxx xxxxx xxxxxx xx xxx xxxxxxxx xxxxx xxxxx xx xxx xxxxxxxxx xxxxxx xxx xxxxxx xxxx xxxxx xx xxx xxxxxxxx \"xxxx xx xxxx xxxxxxx xxxxxxxx xxxx xxxx xxxxxxx xxxxxx xxxxxxx xxxx xxxxxx xxx xxxxx xxx xxxx xxx xxx xxxxx xxx xxxxxx xxxxx xxxx xxx xxx xxxxxx xx xxxxxxx\"\n\nxxx xxxxx xx x xxxxx xxxxxx xxxx xx xxxxxxxxxxxx xxxxxxx xx xxxxxxxxxx xxxx xxx xxxxxxx \"xxxxxx xxxxxxxxxxx xxx xxx xxxxxx xxxx xxxxxxxx xxxxxx xxxxxxx xx xx xxxx xxxx xxxxxx xxxxxxx xxxx xxxxx xxx xxxxxx xx xxxxxxx xx xxxxx xx xxxx xxxxxx\"\n\nxxx xxxx xxxx xxxxxx xxx xxxxxx xx xxx xxxx xxxxx xxxx xxxxxxxxx xxxx xxx xxxxx xxx \"xxxxx xxx xxxxxxx xxxx xxxxxx xxx x xxxx xxx xxxxxxxxxx xxxx xx xxxx xxxx xx xxx xxxxx xx xxx xxx xxx xxxxxxx x xxxxx xx xxxxxxx xxxx xxxx xxx xxxx xxx xx xxxxx xxxx xxxxxxx xxxxxx\" xxx xxxxx xxxxxx xxx x xxxxxx xx xxx xxx x xxxxxxxx xxxx xx xxx xxxxxx xxxxx xxxxxx xx xxxx xx xxxx xxxx xxxxxxxxxxx \"xxx xxxxxxxx xxx xxx xxxx xxxx xxxxxx xxx xxxx xxxxxxxx xxxxxxxx xxxxx xxxx xxxx\"",
+      "metadata": {
+        "generation_request_ids": [
+          "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        ]
+      },
+      "rating": null
+    },
+    {
+      "chat_id": 1000001,
       "created_at": "2026-10-14T17:03:52.723Z",
       "id": 2000007,
       "is_bot": true,
